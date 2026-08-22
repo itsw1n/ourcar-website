@@ -1,203 +1,86 @@
-# Wing's Buy n Sell — Architecture
+# Wing's Buy n Sell — Project Architecture (Project-Specific)
 
-This document applies the owner's Next.js rules to this specific project. `rules/nextjs.md` remains authoritative.
+This file documents **only the decisions specific to this project**. General Next.js
+architecture, folder map, Server/Client boundaries, Services/Repositories, TanStack Query,
+React Aria, Forms, and Supabase client setup live in the canonical playbooks:
 
-## 1. High-Level Shape
+- `playbooks/stack/nextjs.md` — architecture, data flow, forms, nuqs, Server Actions
+- `playbooks/database/supabase.md` — clients, RLS, auth, storage
+- `playbooks/universal.md` — folder structure, naming, errors, git
 
-```text
-Server-rendered public UI
-        ↓
-Queries / Services
-        ↓
-Supabase
+Read those for the "why"; this file is the "what we decided".
 
-Interactive browse/admin UI
-        ↓
-TanStack Query / Server Actions
-        ↓
-Services
-        ↓
-Supabase
-```
+---
 
-## 2. Feature-Oriented Structure
+## 1. Stack & Architecture Shape
 
-Target structure:
+- **Medium architecture default:** `Action → Service → Database`. Escalate to a
+  `Repository` only when vehicle/category persistence becomes complex or shared.
+- Public pages are **Server Components** first; only these are Client: GSAP/Lenis
+  wrapper, search/filter controls, vehicle gallery, admin forms, upload/reorder UI.
+- No `/api/vehicles` route just to let a Server Component read Supabase — use
+  `Server Component → Query → Supabase` instead (see `playbooks/stack/nextjs.md §8-11`).
+
+## 2. Feature-Oriented Structure (this repo)
 
 ```text
 src/
 ├── app/
-│   ├── page.tsx
-│   ├── cars/
-│   │   ├── page.tsx
-│   │   └── [slug]/page.tsx
+│   ├── page.tsx                # Home
+│   ├── cars/page.tsx           # Browse (search + status + category)
+│   ├── cars/[slug]/page.tsx    # Vehicle detail
 │   ├── about/page.tsx
 │   ├── contact/page.tsx
-│   └── admin/
-├── components/
-│   ├── ui/
-│   └── shared/
+│   └── admin/                  # protected: vehicles, categories, testimonials
+├── components/ui/              # Button + future primitives
 ├── features/
 │   ├── home/
-│   ├── vehicles/
+│   ├── vehicles/               # types, mock-data (later: queries/actions/services/schemas)
 │   ├── categories/
 │   ├── testimonials/
 │   └── admin/
-├── lib/
-│   └── supabase/
-├── config/
-└── types/
+├── lib/supabase/               # client.ts, server.ts, admin.ts (Phase 4)
+└── types/                      # database.types.ts after migration
 ```
 
-## 3. Vehicles Feature
+## 3. Vehicles Feature (current → target)
 
-Likely target:
+Today: `features/vehicles/{types/vehicle.ts, mock-data.ts}` + homepage uses mock data.
+When Supabase lands (Phase 4-5), grow to:
 
 ```text
 features/vehicles/
-├── components/
-├── hooks/
-├── queries/
-├── actions/
-├── services/
-├── schemas/
-├── types/
-└── mock-data.ts
+├── components/   # VehicleCard, gallery
+├── hooks/        # TanStack Query (browser-driven browse refresh)
+├── queries/      # server reads (featured, detail, browse initial)
+├── actions/      # next-safe-action mutations
+├── services/     # business ops (create/update/archive/mark status)
+├── schemas/      # Zod (vehicle form, filters)
+└── types.ts
 ```
 
-Start Medium.
+Mutations flow: `Admin form → Server Action → Vehicle Service → Supabase`.
 
-For mutations:
+## 4. Browse Page State (URL, not memory)
 
-```text
-Admin form
-→ Server Action
-→ Vehicle Service
-→ Supabase
-```
+- Search + status (`all`/`available`/`sold`) + category live in the URL via `nuqs`.
+- Example: `/cars?search=suzuki&status=available&category=mini-van`
+- Refresh-safe, shareable, back-button friendly. Do **not** use Zustand for this.
 
-Only add a repository if vehicle persistence becomes complex/reused enough to justify it.
+## 5. Admin Authorization
 
-Reads:
+Enforce server-side in all three places (hiding a button is not authZ):
 
-- Home featured vehicles: server read
-- Vehicle detail: server read
-- Browse page initial result: server read where useful
-- Browser-driven search/filter/refetch: TanStack Query where justified
+1. Server Actions (`if (!isAdmin) throw`)
+2. Protected `admin/` layout / route guards
+3. Supabase RLS policies (`playbooks/database/supabase.md §RLS`)
 
-## 4. Browse Page State
+## 6. Error / Loading States (per data feature)
 
-Search/status/category state belongs in URL using `nuqs`.
+Define: loading · empty · validation · permission · general failure.
+Never expose raw Supabase errors to public users — normalize via `AppError` (`playbooks/universal.md §Error Handling`).
 
-Example:
+## 7. Status Note
 
-```text
-/cars?search=suzuki&status=available&category=mini-van
-```
-
-This makes the browse state:
-
-- refresh-safe
-- shareable
-- back-button friendly
-
-Do not put this state in Zustand.
-
-## 5. TanStack Query
-
-Use for server state in Client Components.
-
-Expected use cases:
-
-- interactive `/cars` result refresh
-- admin vehicle list
-- admin categories
-- admin testimonials
-- mutation invalidation
-
-Do not use TanStack Query merely to fetch server-rendered initial page data.
-
-## 6. React Aria
-
-Use React Aria Components for controls where accessible interaction behavior matters:
-
-- category select/listbox
-- status tabs if implemented as tabs
-- dialog/modal
-- admin menus
-- gallery controls where appropriate
-- confirmation dialogs
-
-Do not force React Aria into static layout components.
-
-## 7. Forms
-
-Use:
-
-- Zod schema first
-- React Hook Form
-- zodResolver
-- server-side validation again
-- next-safe-action for UI-triggered mutations when appropriate
-
-## 8. Supabase
-
-Target infrastructure:
-
-```text
-src/lib/supabase/
-├── client.ts
-├── server.ts
-└── admin.ts
-```
-
-Rules:
-
-- browser client: anon
-- server client: anon + cookies
-- service role: server only
-- RLS on all tables
-- Supabase Auth for admin auth
-- Storage for vehicle images
-
-## 9. Admin Authorization
-
-Admin status should be modeled in the application DB/profile layer and enforced:
-
-- in server actions
-- in protected server routes/layouts
-- in RLS policies
-
-Hiding a button is not authorization.
-
-## 10. Server vs Client Boundaries
-
-Keep public pages server-first.
-
-Client components are expected for:
-
-- GSAP/Lenis animation wrapper
-- search/filter controls
-- advanced gallery
-- admin forms
-- upload/reordering UI
-
-Do not mark whole route trees `use client` merely because one subsection animates.
-
-## 11. No Unnecessary API Layer
-
-Do not add `/api/vehicles` just so a Server Component can read Supabase.
-
-An HTTP route is justified only when a browser-driven query or real external consumer needs HTTP.
-
-## 12. Error/Loading States
-
-Each data feature should define:
-
-- loading
-- empty
-- validation
-- permission
-- general failure behavior
-
-Do not expose raw Supabase errors directly to public users.
+Implementation phases tracked in `docs/implementation-plan.md`. Do not present
+unfinished features (Supabase, auth, admin) as complete.

@@ -1,6 +1,7 @@
 # Wing's Buy n Sell — Supabase Database Plan
 
-This is the target schema plan. Do not apply it blindly without reviewing `rules/supabase.md`.
+Target schema for this project. Generic RLS/policy syntax and client setup live in
+`playbooks/database/supabase.md` (authoritative) — do not duplicate here.
 
 ## 1. Tables
 
@@ -90,45 +91,29 @@ Columns:
 
 Mock testimonials exist only in development.
 
-## 2. RLS Direction
+## 2. RLS Direction (policy intent only — syntax in playbook)
 
-RLS enabled on every table.
+Enable RLS on **every** table (see `playbooks/database/supabase.md §Row Level Security`).
 
-Public read:
-
+**Public read** (anon):
 - active categories
 - non-archived vehicles
 - vehicle images belonging to visible vehicles
 - active testimonials
 
-Authenticated admin:
-
+**Authenticated admin** (service role / RLS check on `profiles.role = 'ADMIN'`):
 - insert/update/archive vehicles
 - manage categories
 - manage images
 - manage testimonials
 
-The exact policies should be created in migrations and reviewed carefully.
+Write the exact `CREATE POLICY` SQL in `supabase/migrations/` and review carefully.
 
 ## 3. Storage
 
-Suggested bucket:
-
-`vehicle-images`
-
-Read:
-
-- public, because vehicle photos are public marketing assets
-
-Write:
-
-- authenticated admin only
-
-Delete:
-
-- authenticated admin only
-
-Do not expose service-role credentials to the browser.
+Suggested bucket: `vehicle-images` (public read for marketing assets, admin write/delete
+only). Policy syntax → `playbooks/database/supabase.md §Storage`. Never expose
+service-role credentials to the browser.
 
 ## 4. Slugs
 
@@ -171,12 +156,10 @@ Do not create a separate sold table.
 
 ## 7. Migrations
 
-All schema changes should be represented in:
+All schema changes live in `supabase/migrations/` as timestamped SQL. Workflow
+(`npx supabase migration new` → `db reset` → `db push` → `gen types`) is in
+`playbooks/migration/supabase-cli.md`.
 
-`supabase/migrations/`
-
-After schema changes, regenerate:
-
-`src/types/database.types.ts`
-
+After each schema change, regenerate `src/types/database.types.ts` via
+`npx supabase gen types typescript --local > src/types/database.types.ts`.
 Do not manually maintain generated DB types.
