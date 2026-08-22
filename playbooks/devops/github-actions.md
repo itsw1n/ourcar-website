@@ -3,6 +3,7 @@
 ---
 
 ## Core Rules
+
 - Separate workflow per service — frontend and backend never in one file
 - Path filtering — only trigger on relevant folder changes
 - Use npm ci not npm install in CI
@@ -14,6 +15,7 @@
 ---
 
 ## Frontend CI
+
 ```yaml
 # .github/workflows/ci-frontend.yml
 name: CI — Frontend
@@ -64,6 +66,7 @@ jobs:
 ```
 
 ## Backend CI (Spring Boot)
+
 ```yaml
 # .github/workflows/ci-backend.yml
 name: CI — Backend
@@ -128,6 +131,7 @@ jobs:
 ```
 
 ## Next.js CI
+
 ```yaml
 # .github/workflows/ci-nextjs.yml
 name: CI — Next.js
@@ -168,6 +172,7 @@ jobs:
 ---
 
 ## Agent Rules
+
 ```
 New workflow file?
   → Path-filter to relevant folder

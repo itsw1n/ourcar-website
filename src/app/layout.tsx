@@ -3,11 +3,11 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: "Wing's Buy n Sell",
-  description: 'Japanese surplus mini vans in Davao City.'
+  description: 'Japanese surplus mini vans in Davao City.',
 }
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">

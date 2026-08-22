@@ -11,7 +11,7 @@ export const mockVehicles: Vehicle[] = [
     mileageKm: 21000,
     category: 'Mini Van',
     status: 'available',
-    image: '/sample-car.png'
+    image: '/sample-car.png',
   },
   {
     id: '2',
@@ -23,7 +23,7 @@ export const mockVehicles: Vehicle[] = [
     mileageKm: 18500,
     category: 'Mini Van',
     status: 'available',
-    image: '/sample-car.png'
+    image: '/sample-car.png',
   },
   {
     id: '3',
@@ -35,6 +35,6 @@ export const mockVehicles: Vehicle[] = [
     mileageKm: 19200,
     category: 'Mini Van',
     status: 'sold',
-    image: '/sample-car.png'
-  }
+    image: '/sample-car.png',
+  },
 ]

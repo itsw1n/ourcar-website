@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  tag-and-release:
+    name: Tag + GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine next patch version
+        id: version
+        run: |
+          git fetch --tags
+          LATEST=$(git tag --list 'v*' --sort=-v:refname | head -n1)
+          if [[ -z "$LATEST" ]]; then
+            NEXT="v0.1.0"
+          else
+            VERSION="${LATEST#v}"
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+            PATCH=$((PATCH + 1))
+            NEXT="v$MAJOR.$MINOR.$PATCH"
+          fi
+          echo "next=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Next version: $NEXT (previous: ${LATEST:-none})"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.version.outputs.next }}" \
+            --title "${{ steps.version.outputs.next }}" \
+            --generate-notes

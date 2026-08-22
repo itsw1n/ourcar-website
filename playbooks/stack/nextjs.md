@@ -70,12 +70,12 @@ React components that execute on the server. Default in the Next.js App Router. 
 Example:
 
 ```tsx
-import { getUsers } from "@/features/users/queries/getUsers";
+import { getUsers } from '@/features/users/queries/getUsers'
 
 export default async function UsersPage() {
-  const users = await getUsers();
+  const users = await getUsers()
 
-  return <UserList users={users} />;
+  return <UserList users={users} />
 }
 ```
 
@@ -90,19 +90,16 @@ Use when browser-side behavior is required: `useState`, `useEffect`, event handl
 Example:
 
 ```tsx
-"use client";
+'use client'
 
-import { useState } from "react";
+import { useState } from 'react'
 
 export function UserSearch() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('')
 
   return (
-    <input
-      value={query}
-      onChange={(event) => setQuery(event.target.value)}
-    />
-  );
+    <input value={query} onChange={(event) => setQuery(event.target.value)} />
+  )
 }
 ```
 
@@ -151,9 +148,9 @@ Use when the page needs data for its initial/server-rendered UI (e.g. `/users`).
 
 ```tsx
 export default async function UsersPage() {
-  const users = await getUsers();
+  const users = await getUsers()
 
-  return <UserList users={users} />;
+  return <UserList users={users} />
 }
 ```
 
@@ -166,14 +163,12 @@ Flow: `Browser → Next.js Server Component → getUsers() → Repository → Da
 Use when the browser independently requests data: search, autocomplete, infinite scroll, client-controlled pagination, polling, independently refreshing data, HTTP-only consumers.
 
 ```tsx
-"use client";
+'use client'
 
 async function searchUsers(query: string) {
-  const response = await fetch(
-    `/api/users?search=${encodeURIComponent(query)}`
-  );
+  const response = await fetch(`/api/users?search=${encodeURIComponent(query)}`)
 
-  return response.json();
+  return response.json()
 }
 ```
 
@@ -188,10 +183,10 @@ A separate Query layer is unnecessary for a simple read regardless of project si
 ```tsx
 export default async function SettingsPage() {
   const user = await db.user.findUnique({
-    where: { id: "current-user-id" }
-  });
+    where: { id: 'current-user-id' },
+  })
 
-  return <Settings user={user} />;
+  return <Settings user={user} />
 }
 ```
 
@@ -209,7 +204,7 @@ A Query answers: **What data does the application need?**
 // features/users/queries/getUsers.ts
 
 export async function getUsers() {
-  return userRepository.findMany();
+  return userRepository.findMany()
 }
 ```
 
@@ -230,29 +225,29 @@ A mutation answers: **What changes in the system?** (not "How did the request en
 A server-side entry point used by your own Next.js UI. Responsibilities: receive input → authenticate → authorize → validate → call the application/service operation → revalidate or redirect.
 
 ```ts
-"use server";
+'use server'
 
 export async function createUserAction(formData: FormData) {
-  const currentUser = await getCurrentUser();
+  const currentUser = await getCurrentUser()
 
   if (!currentUser) {
-    throw new Error("Unauthorized");
+    throw new Error('Unauthorized')
   }
 
   if (!currentUser.isAdmin) {
-    throw new Error("Forbidden");
+    throw new Error('Forbidden')
   }
 
   const input = CreateUserSchema.parse({
-    name: formData.get("name"),
-    email: formData.get("email"),
-  });
+    name: formData.get('name'),
+    email: formData.get('email'),
+  })
 
-  const user = await userService.createUser(input);
+  const user = await userService.createUser(input)
 
-  revalidatePath("/users");
+  revalidatePath('/users')
 
-  return user;
+  return user
 }
 ```
 
@@ -276,11 +271,10 @@ A Service/Use Case represents a meaningful application operation.
 
 ```ts
 export async function createUser(input: CreateUserInput) {
-  const existing =
-    await userRepository.findByEmail(input.email);
+  const existing = await userRepository.findByEmail(input.email)
 
   if (existing) {
-    throw new Error("User already exists");
+    throw new Error('User already exists')
   }
 
   // subscription checks
@@ -289,7 +283,7 @@ export async function createUser(input: CreateUserInput) {
   // audit logic
   // other business rules
 
-  return userRepository.create(input);
+  return userRepository.create(input)
 }
 ```
 
@@ -304,21 +298,21 @@ A Repository handles data access.
 ```ts
 export const userRepository = {
   findMany() {
-    return db.user.findMany();
+    return db.user.findMany()
   },
 
   findByEmail(email: string) {
     return db.user.findUnique({
-      where: { email }
-    });
+      where: { email },
+    })
   },
 
   create(input: CreateUserInput) {
     return db.user.create({
-      data: input
-    });
-  }
-};
+      data: input,
+    })
+  },
+}
 ```
 
 The Repository answers: **How does the application access persistent data?**
@@ -338,21 +332,17 @@ A Query can compose multiple repository operations:
 
 ```ts
 export async function getDashboardData(organizationId: string) {
-  const users = await userRepository.findActiveByOrganization(
-    organizationId
-  );
+  const users = await userRepository.findActiveByOrganization(organizationId)
 
-  const orders =
-    await orderRepository.findRecent(organizationId);
+  const orders = await orderRepository.findRecent(organizationId)
 
-  const revenue =
-    await orderRepository.getRevenue(organizationId);
+  const revenue = await orderRepository.getRevenue(organizationId)
 
   return {
     users,
     orders,
     revenue,
-  };
+  }
 }
 ```
 
@@ -504,7 +494,7 @@ Mutations, deleting records, updating records, UI components, HTTP handlers.
 
 ```ts
 export async function getUsers() {
-  return userRepository.findMany();
+  return userRepository.findMany()
 }
 ```
 
@@ -560,7 +550,7 @@ Validation schemas: `CreateUserSchema`, `UpdateUserSchema`, `SearchUsersSchema`,
 export const CreateUserSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
-});
+})
 ```
 
 ## DO NOT PUT HERE
@@ -575,10 +565,10 @@ Feature-specific TypeScript types.
 
 ```ts
 export type UserSummary = {
-  id: string;
-  name: string;
-  email: string;
-};
+  id: string
+  name: string
+  email: string
+}
 ```
 
 No unrelated application logic in type files.
@@ -621,21 +611,21 @@ Do NOT put the entire business workflow inside `route.ts`.
 
 # 39. Folder Responsibility Matrix
 
-| Folder | Put here | Do not put here |
-|---|---|---|
-| `app/` | Routing, pages, layouts, route handlers | Large business logic |
-| `features/` | Feature-specific application code | Unrelated global utilities |
-| `features/*/components` | Feature UI | DB/business workflows |
-| `features/*/queries` | Read operations | Writes |
-| `features/*/actions` | Server Actions | Large business logic |
-| `features/*/services` | Business/application operations | React UI |
-| `features/*/repositories` | Data/database access | UI/business workflows |
-| `features/*/schemas` | Validation schemas | DB access |
-| `features/*/types.ts` | Feature types | Runtime logic |
-| `components/ui` | Generic UI primitives | Feature logic |
-| `components/shared` | Cross-feature UI | Database/business logic |
-| `lib/` | Shared infrastructure | Feature dumping ground |
-| `app/api` | HTTP entry points | Entire business system |
+| Folder                    | Put here                                | Do not put here            |
+| ------------------------- | --------------------------------------- | -------------------------- |
+| `app/`                    | Routing, pages, layouts, route handlers | Large business logic       |
+| `features/`               | Feature-specific application code       | Unrelated global utilities |
+| `features/*/components`   | Feature UI                              | DB/business workflows      |
+| `features/*/queries`      | Read operations                         | Writes                     |
+| `features/*/actions`      | Server Actions                          | Large business logic       |
+| `features/*/services`     | Business/application operations         | React UI                   |
+| `features/*/repositories` | Data/database access                    | UI/business workflows      |
+| `features/*/schemas`      | Validation schemas                      | DB access                  |
+| `features/*/types.ts`     | Feature types                           | Runtime logic              |
+| `components/ui`           | Generic UI primitives                   | Feature logic              |
+| `components/shared`       | Cross-feature UI                        | Database/business logic    |
+| `lib/`                    | Shared infrastructure                   | Feature dumping ground     |
+| `app/api`                 | HTTP entry points                       | Entire business system     |
 
 ---
 
@@ -744,13 +734,13 @@ Bad: 300 lines of business logic in `POST`. Good:
 
 ```ts
 export async function POST(request: Request) {
-  const input = await request.json();
+  const input = await request.json()
 
-  const validated = Schema.parse(input);
+  const validated = Schema.parse(input)
 
-  const result = await orderService.createOrder(validated);
+  const result = await orderService.createOrder(validated)
 
-  return Response.json(result);
+  return Response.json(result)
 }
 ```
 
@@ -774,9 +764,9 @@ Untrusted Input → Validation → Trusted Application Input → Service
 
 ```ts
 const input = CreateUserSchema.parse({
-  name: formData.get("name"),
-  email: formData.get("email"),
-});
+  name: formData.get('name'),
+  email: formData.get('email'),
+})
 ```
 
 ---
@@ -1158,7 +1148,7 @@ export function useUsers(filters?: UserFilters) {
   return useQuery({
     queryKey: filters ? userKeys.filtered(filters) : userKeys.all,
     queryFn: () => userApi.getAll(filters),
-    staleTime: 1000 * 60 * 5,   // 5 minutes
+    staleTime: 1000 * 60 * 5, // 5 minutes
   })
 }
 
@@ -1181,7 +1171,7 @@ Stale time defaults:
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,   // 5min — most data
+      staleTime: 1000 * 60 * 5, // 5min — most data
       retry: 1,
       refetchOnWindowFocus: false,
     },
@@ -1452,7 +1442,10 @@ export type FetchError = {
   message: string
 }
 
-export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+export async function apiFetch<T>(
+  path: string,
+  init?: RequestInit
+): Promise<T> {
   let response: Response
 
   try {
@@ -1469,7 +1462,9 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
   }
 
   if (!response.ok) {
-    const body = (await response.json().catch(() => null)) as Partial<FetchError> | null
+    const body = (await response
+      .json()
+      .catch(() => null)) as Partial<FetchError> | null
     const error: FetchError = {
       status: response.status,
       code: body?.code ?? 'UNKNOWN_ERROR',

@@ -5,6 +5,7 @@ Used with: Next.js + Supabase, React + Supabase combos.
 ---
 
 ## Core Rules
+
 - NEVER edit migration files after they are applied
 - To change schema: create a new migration file
 - Migrations live in: supabase/migrations/
@@ -15,6 +16,7 @@ Used with: Next.js + Supabase, React + Supabase combos.
 ---
 
 ## Setup
+
 ```bash
 # Install Supabase CLI
 npm install supabase --save-dev
@@ -30,6 +32,7 @@ npx supabase start
 ```
 
 Local services after `supabase start`:
+
 ```
 API:      http://localhost:54321
 Studio:   http://localhost:54323
@@ -39,6 +42,7 @@ DB:       postgresql://postgres:postgres@localhost:5432/postgres
 ---
 
 ## Migration Commands
+
 ```bash
 # Create new migration file
 npx supabase migration new [name]
@@ -63,6 +67,7 @@ npx supabase stop
 ---
 
 ## Migration File Pattern
+
 ```
 supabase/migrations/
   20240101000000_create_users_table.sql
@@ -71,12 +76,14 @@ supabase/migrations/
 ```
 
 Naming: `[timestamp]_[description].sql`
+
 - Generated automatically by `supabase migration new`
 - Description: snake_case, lowercase
 
 ---
 
 ## Standard Migration Template
+
 ```sql
 -- supabase/migrations/[timestamp]_create_[name]_table.sql
 
@@ -130,6 +137,7 @@ CREATE INDEX idx_[name]_user_id ON [name](user_id);
 ---
 
 ## Supabase-Specific Column Types
+
 ```sql
 -- Use UUID (not VARCHAR(36))
 id      UUID PRIMARY KEY DEFAULT gen_random_uuid()
@@ -148,6 +156,7 @@ metadata JSONB DEFAULT '{}'
 ---
 
 ## Referencing Auth Users
+
 ```sql
 -- Reference Supabase Auth users table
 user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
@@ -194,6 +203,7 @@ CREATE TRIGGER on_auth_user_created
 ---
 
 ## Type Generation
+
 ```bash
 # After any schema change, regenerate types
 npx supabase gen types typescript \
@@ -209,6 +219,7 @@ npx supabase gen types typescript \
 ---
 
 ## Seeding
+
 ```sql
 -- supabase/seed.sql
 -- Loaded automatically on: npx supabase db reset
@@ -220,6 +231,7 @@ INSERT INTO profiles (id, name) VALUES
 ---
 
 ## Local vs Remote Workflow
+
 ```
 Development:
   1. npx supabase migration new [name]
@@ -238,6 +250,7 @@ Production:
 ---
 
 ## Agent Rules
+
 ```
 New table needed?
   → npx supabase migration new create_[name]_table
