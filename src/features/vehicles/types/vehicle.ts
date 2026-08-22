@@ -10,5 +10,6 @@ export type Vehicle = {
   mileageKm: number
   category: string
   status: VehicleStatus
+  featured: boolean
   image: string
 }
