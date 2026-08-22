@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { SmoothScrollProvider } from '@/components/shared/smooth-scroll-provider'
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <NuqsAdapter>
+          <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        </NuqsAdapter>
       </body>
     </html>
   )
