@@ -14,6 +14,26 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
   const slideRefs = useRef<(HTMLDivElement | null)[]>([])
   const prevIndex = useRef(0)
   const reduceRef = useRef(false)
+  const startX = useRef<number | null>(null)
+  const goTo = (i: number) => setIndex(i)
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    startX.current = e.clientX
+  }
+  const onPointerUp = (e: React.PointerEvent) => {
+    if (startX.current === null) return
+    const dx = e.clientX - startX.current
+    startX.current = null
+    if (dx < -50) goTo((index + 1) % slides.length)
+    else if (dx > 50) goTo((index - 1 + slides.length) % slides.length)
+  }
+  const onPointerLeave = () => {
+    startX.current = null
+  }
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') goTo((index - 1 + slides.length) % slides.length)
+    else if (e.key === 'ArrowRight') goTo((index + 1) % slides.length)
+  }
 
   useEffect(() => {
     reduceRef.current = window.matchMedia(
@@ -79,13 +99,17 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
   return (
     <div
       data-ui="hero-carousel"
-      className={cn('relative min-h-[500px] w-full')}
+      className={cn('relative min-h-[500px] w-full select-none')}
       aria-roledescription="carousel"
       aria-label="Featured vehicles"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+      onPointerLeave={onPointerLeave}
+      onKeyDown={onKeyDown}
     >
       <div
         ref={stageRef}
