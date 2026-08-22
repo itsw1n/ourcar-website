@@ -1,5 +1,7 @@
 export type VehicleStatus = 'available' | 'sold'
 
+export type VehicleStatusFilter = 'all' | 'available' | 'sold'
+
 export type Vehicle = {
   id: string
   slug: string
