@@ -1,13 +1,49 @@
+import { Suspense } from 'react'
+import { SiteHeader } from '@/components/shared/site-header'
+import { SiteFooter } from '@/components/shared/site-footer'
+import { ContactCTA } from '@/components/shared/contact-cta'
+import { Reveal } from '@/components/shared/reveal'
+import { Container } from '@/components/layout/container'
+import { Section } from '@/components/layout/section'
+import { QueryProvider } from '@/providers/query-provider'
+import { BrowseCars } from '@/features/vehicles/components/browse-cars'
+import { VehicleGridSkeleton } from '@/features/vehicles/components/vehicle-grid'
+
 export default function CarsPage() {
   return (
-    <main className="mx-auto max-w-7xl px-6 py-20">
-      <h1 className="text-5xl font-black uppercase tracking-tight">
-        Browse Cars
-      </h1>
-      <p className="mt-4 max-w-2xl text-muted-foreground">
-        Planned next: search, All / Available / Sold status filters, and dynamic
-        category filters.
-      </p>
-    </main>
+    <>
+      <SiteHeader />
+      <main>
+        <Section
+          data-ui="browse-cars-page"
+          className="border-b border-border py-20"
+        >
+          <Reveal>
+            <Container>
+              <div className="mb-10">
+                <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+                  Our Vehicles
+                </div>
+                <h1 className="text-4xl font-black uppercase tracking-tight md:text-5xl">
+                  Browse Cars
+                </h1>
+                <p className="mt-4 max-w-2xl text-muted-foreground">
+                  Browse available and sold Japanese surplus mini vans.
+                </p>
+              </div>
+
+              <QueryProvider>
+                <Suspense fallback={<VehicleGridSkeleton count={6} />}>
+                  <BrowseCars />
+                </Suspense>
+              </QueryProvider>
+            </Container>
+          </Reveal>
+        </Section>
+
+        <ContactCTA />
+      </main>
+      <SiteFooter />
+    </>
   )
 }
