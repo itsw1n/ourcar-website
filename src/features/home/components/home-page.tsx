@@ -7,40 +7,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import { Button } from '@/components/ui/button'
+import { BrandLogo } from '@/components/shared/brand-logo'
 import { cn } from '@/lib/utils'
-import { mockVehicles } from '@/features/vehicles/mock-data'
+import { mockVehicles } from '@/features/vehicles/queries/vehicles'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
 
 gsap.registerPlugin(ScrollTrigger)
-
-function WLogo() {
-  return (
-    <div data-component="brand-logo" className={cn('flex items-center gap-3')}>
-      <div
-        className={cn('relative flex h-12 w-14 items-center justify-center')}
-      >
-        <span
-          className={cn('text-[42px] font-black leading-none tracking-[-10px]')}
-        >
-          W
-        </span>
-        <span className={cn('absolute top-1 h-2 w-2 rotate-45 bg-primary')} />
-      </div>
-      <div className={cn('leading-none')}>
-        <div className={cn('text-xl font-black tracking-tight')}>
-          WING&apos;S
-        </div>
-        <div
-          className={cn(
-            'mt-1 text-[10px] font-bold tracking-[0.22em] text-primary'
-          )}
-        >
-          BUY N SELL
-        </div>
-      </div>
-    </div>
-  )
-}
 
 function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
   return (
@@ -177,7 +149,7 @@ export function HomePage() {
             'mx-auto flex max-w-7xl items-center justify-between px-6 py-4'
           )}
         >
-          <WLogo />
+          <BrandLogo />
 
           <nav
             className={cn(
@@ -276,7 +248,7 @@ export function HomePage() {
                 )}
               />
               <Image
-                src="/sample-car.png"
+                src="/mock-car.png"
                 alt="Japanese surplus mini van"
                 fill
                 priority
@@ -527,7 +499,7 @@ export function HomePage() {
             'mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-3'
           )}
         >
-          <WLogo />
+          <BrandLogo />
           <p className={cn('max-w-sm text-sm leading-6 text-muted-foreground')}>
             Japanese surplus mini vans converted and built with experience you
             can trust.

@@ -60,6 +60,7 @@ Full snapshot → `CONTEXT.md`.
 - Implement one phase at a time per `docs/implementation-plan.md`.
 - Reuse existing components/services before creating. Smallest complete vertical slice. Validate `tsc`/build/lint. Summarize changes + remaining.
 - DB tasks: `make db-reset` / `make db-types` (see `Makefile`). Do not mark unfinished features complete.
+- **Data source (dev vs prod):** single switch in `src/lib/data-source.ts`. Dev defaults to `mock`; prod uses Supabase when `NEXT_PUBLIC_SUPABASE_URL` is set. Override with `NEXT_PUBLIC_DATA_SOURCE=mock|supabase`. All feature read paths go through their `queries/` module (mock now, Supabase lazily imported later) — never import mock data directly in components. Run `make dev-mock` for Supabase-free local dev.
 
 ## CI & Branching (project-specific)
 
