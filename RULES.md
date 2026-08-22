@@ -18,7 +18,7 @@
 | RLS on every table, policies                    | `playbooks/database/supabase.md`           | §Row Level Security                                 |
 | Auth (Supabase Auth) / Storage / Realtime       | `playbooks/database/supabase.md`           | §Supabase Auth, §Storage, §Realtime                 |
 | Migrations, type gen                            | `playbooks/migration/supabase-cli.md`      | §Migration Commands, §Type Generation               |
-| Tailwind `cn()`, shadcn/ui, tokens, responsive  | `playbooks/styling/tailwind-extensions.md` | §cn, §shadcn, §Color Rules, §Responsive             |
+| Tailwind `cn()`, shadcn/ui, tokens, responsive  | `playbooks/styling/tailwind.md` | §cn, §shadcn, §Color Rules, §Responsive             |
 | CI (Next.js)                                    | `playbooks/devops/github-actions.md`       | §Next.js CI                                         |
 
 **How to use:** Task touches Supabase RLS? → `Read playbooks/database/supabase.md` offset §RLS only. Never `Read` all playbooks eagerly.

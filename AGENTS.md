@@ -40,10 +40,10 @@ Full snapshot → `CONTEXT.md`.
 - Auth = Supabase Auth, not custom JWT. Regenerate `src/types/database.types.ts` after migrations.
 - Storage bucket `vehicle-images`: public read, admin write/delete.
 
-## Styling Invariants (→ `playbooks/styling/tailwind-extensions.md`)
+## Styling Invariants (→ `playbooks/styling/tailwind.md`)
 
 - `cn()` for all conditional classes; semantic tokens (`bg-primary`, not `#hex`).
-- Every reusable component: `data-component="name"` + `className={cn(...)}`.
+- Every reusable component: `data-ui="name"` + `className={cn(...)}`.
 - White-first editorial; red accent only (CTA, labels, active states). No AI gradients/glassmorphism.
 - Respect `prefers-reduced-motion` (disable Lenis/scrub). React Aria for accessible controls.
 
