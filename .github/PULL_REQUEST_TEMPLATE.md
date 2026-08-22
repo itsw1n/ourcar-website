@@ -48,7 +48,7 @@
 
 - [ ] New code lives under `src/features/<name>/` or `src/components/`
 - [ ] No business logic in page/layout files
-- [ ] `cn()` used for conditional classes; `data-component` on reusable UI
+- [ ] `cn()` used for conditional classes; `data-ui` on reusable UI
 - [ ] Supabase calls use the correct client (`client/server/admin`)
 
 ### Docs
