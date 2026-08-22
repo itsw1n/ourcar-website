@@ -10,7 +10,7 @@ export function BrandLogo({ className }: { className?: string }) {
   if (errored) {
     return (
       <div
-        data-component="brand-logo"
+        data-ui="brand-logo"
         className={cn('flex items-center gap-3', className)}
       >
         <div
@@ -42,15 +42,33 @@ export function BrandLogo({ className }: { className?: string }) {
   }
 
   return (
-    <Image
-      src="/logo.png"
-      alt="Wing's Buy n Sell"
-      width={140}
-      height={48}
-      priority
-      data-component="brand-logo"
-      className={cn('h-12 w-auto', className)}
-      onError={() => setErrored(true)}
-    />
+    <div
+      data-ui="brand-logo"
+      className={cn('flex items-center gap-3', className)}
+    >
+      <Image
+        src="/logo.png"
+        alt="Wing's Buy n Sell"
+        width={140}
+        height={48}
+        priority
+        className={cn('h-12 w-auto')}
+        onError={() => setErrored(true)}
+      />
+      <span className={cn('flex flex-col leading-none')}>
+        <span
+          className={cn('text-xl font-black tracking-tight text-foreground')}
+        >
+          WING&apos;S
+        </span>
+        <span
+          className={cn(
+            'mt-1 text-[10px] font-bold tracking-[0.22em] text-primary'
+          )}
+        >
+          BUY N SELL
+        </span>
+      </span>
+    </div>
   )
 }
