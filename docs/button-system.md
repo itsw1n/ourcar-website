@@ -16,14 +16,15 @@ One Button component renders every CTA (header, hero, cards, contact, mobile dra
 
 ## Variants
 
-| Variant    | Background            | Text               | Border             | Use                                  |
-| ---------- | --------------------- | ------------------ | ------------------ | ------------------------------------ |
-| `primary`  | `bg-primary` (red)    | `text-primary-foreground` (white) | `border-primary`   | Main CTAs: hero "Message", contact   |
-| `dark`     | `bg-foreground` (near-black) | `text-background` (white) | `border-foreground` | Header "Message Us", emphasis actions |
-| `outline`  | transparent           | `text-foreground`  | `border-foreground/20` | Hero "Call / Text" secondary CTA     |
-| `ghost`    | transparent           | `text-foreground hover:text-primary` | `border-transparent` | In-section links ("View details", "Browse all cars") |
+| Variant   | Background                   | Text                                 | Border                 | Use                                                  |
+| --------- | ---------------------------- | ------------------------------------ | ---------------------- | ---------------------------------------------------- |
+| `primary` | `bg-primary` (red)           | `text-primary-foreground` (white)    | `border-primary`       | Main CTAs: hero "Message", contact                   |
+| `dark`    | `bg-foreground` (near-black) | `text-background` (white)            | `border-foreground`    | Header "Message Us", emphasis actions                |
+| `outline` | transparent                  | `text-foreground`                    | `border-foreground/20` | Hero "Call / Text" secondary CTA                     |
+| `ghost`   | transparent                  | `text-foreground hover:text-primary` | `border-transparent`   | In-section links ("View details", "Browse all cars") |
 
 Hover behavior:
+
 - `primary`: `hover:bg-primary` stays red; a black `bg-foreground` layer (`scaleX` 0→1 from left, 300ms) sweeps across on `group-hover`. After sweep, text remains white.
 - `dark`: `hover:bg-foreground` stays near-black; same black sweep (so it reads as a subtle press, not a color flip).
 - `outline` / `ghost`: text shifts to `text-primary` (red) on hover; no sweep.
@@ -32,11 +33,11 @@ Hover behavior:
 
 ## Sizes
 
-| Size | Min height | Horizontal padding | Font size | Use                          |
-| ---- | ---------- | ------------------ | --------- | ---------------------------- |
-| `sm` | 36px       | `px-4` (16px)      | `text-xs` | In-card "View details"       |
-| `md` | 44px       | `px-5` (20px)      | `text-sm` | Header / mobile nav          |
-| `lg` | 52px       | `px-7` (28px)      | `text-sm` | Hero / contact CTAs          |
+| Size | Min height | Horizontal padding | Font size | Use                    |
+| ---- | ---------- | ------------------ | --------- | ---------------------- |
+| `sm` | 36px       | `px-4` (16px)      | `text-xs` | In-card "View details" |
+| `md` | 44px       | `px-5` (20px)      | `text-sm` | Header / mobile nav    |
+| `lg` | 52px       | `px-7` (28px)      | `text-sm` | Hero / contact CTAs    |
 
 All sizes: `uppercase tracking-wide font-bold`, `rounded-none`, `inline-flex items-center justify-center gap-2`, `touch-friendly` min-height.
 
