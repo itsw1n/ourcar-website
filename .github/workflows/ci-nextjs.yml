@@ -1,0 +1,57 @@
+name: CI — Next.js
+
+on:
+  push:
+    branches: [dev, main]
+    paths:
+      - src/**
+      - public/**
+      - package*.json
+      - next.config.*
+      - .prettierrc
+      - .eslintrc.json
+  pull_request:
+    branches: [dev, main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Lint, Format, Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+  branch-name:
+    name: Branch Naming
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch name
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          # Integration PRs (dev -> main) are exempt
+          if [[ "$BRANCH" == "dev" || "$BRANCH" == "main" ]]; then
+            echo "Integration branch allowed: $BRANCH"
+            exit 0
+          fi
+          if [[ ! "$BRANCH" =~ ^(feature|fix|docs|chore|refactor|test)/.+ ]]; then
+            echo "::error::Branch '$BRANCH' must match type/* (feature|fix|docs|chore|refactor|test)"
+            exit 1
+          fi
+          echo "Branch name OK: $BRANCH"

@@ -5,6 +5,7 @@ Extends your existing tailwind playbook with missing patterns.
 ---
 
 ## cn() Utility — Always Use for Conditional Classes
+
 ```typescript
 // lib/utils.ts
 import { clsx, type ClassValue } from 'clsx'
@@ -32,6 +33,7 @@ export function cn(...inputs: ClassValue[]) {
 ---
 
 ## shadcn/ui Integration
+
 - Components live in `components/ui/` — you own the code
 - Install via CLI: `npx shadcn@latest add [component]`
 - Never modify shadcn primitives — extend them in your own components
@@ -54,10 +56,11 @@ export function SubmitButton({ isLoading, children }: SubmitButtonProps) {
 ---
 
 ## Dark Mode
+
 ```typescript
 // tailwind.config.ts
 export default {
-  darkMode: 'class',   // controlled by next-themes or manual class toggle
+  darkMode: 'class', // controlled by next-themes or manual class toggle
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
@@ -105,6 +108,7 @@ export default {
 ---
 
 ## Responsive — Mobile First Always
+
 ```typescript
 // ✅ mobile-first (correct)
 <div className="flex-col sm:flex-row md:gap-8 lg:max-w-7xl" />
@@ -116,6 +120,7 @@ export default {
 ---
 
 ## Animation Rules
+
 ```typescript
 // ✅ use Tailwind transition classes
 <button className="transition-colors duration-200 hover:bg-primary/90" />
@@ -135,6 +140,7 @@ transitionDuration: {
 ---
 
 ## Color Rules
+
 ```typescript
 // ✅ use semantic tokens
 <div className="bg-background text-foreground" />
@@ -151,6 +157,7 @@ transitionDuration: {
 ---
 
 ## Agent Quick Reference (Extended)
+
 ```
 Conditional classes?
   → cn() from lib/utils.ts always

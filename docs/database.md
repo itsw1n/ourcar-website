@@ -96,12 +96,14 @@ Mock testimonials exist only in development.
 Enable RLS on **every** table (see `playbooks/database/supabase.md §Row Level Security`).
 
 **Public read** (anon):
+
 - active categories
 - non-archived vehicles
 - vehicle images belonging to visible vehicles
 - active testimonials
 
 **Authenticated admin** (service role / RLS check on `profiles.role = 'ADMIN'`):
+
 - insert/update/archive vehicles
 - manage categories
 - manage images
