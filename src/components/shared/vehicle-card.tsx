@@ -51,6 +51,9 @@ export function VehicleCard({
         <p className="mt-1 text-sm text-muted-foreground">
           {vehicle.mileageKm.toLocaleString()} km
         </p>
+        <p className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">
+          {vehicle.category}
+        </p>
 
         <div className="mt-5 border-t border-border pt-4">
           <Button
