@@ -10,19 +10,24 @@ import { VehicleGallery } from '@/features/vehicles/components/vehicle-gallery'
 import { VehicleSpecifications } from '@/features/vehicles/components/vehicle-specifications'
 import { VehicleDescription } from '@/features/vehicles/components/vehicle-description'
 import { RelatedVehicles } from '@/features/vehicles/components/related-vehicles'
-import {
-  getVehicleBySlug,
-  getRelatedVehicles,
-} from '@/features/vehicles/queries/vehicles'
+import { getVehicles } from '@/features/vehicles/queries/vehicles'
 import { vehicleImages } from '@/features/vehicles/types/vehicle'
 
 type PageProps = { params: Promise<{ slug: string }> }
+
+export const revalidate = 3600
+
+export async function generateStaticParams() {
+  const vehicles = await getVehicles()
+  return vehicles.map((vehicle) => ({ slug: vehicle.slug }))
+}
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const vehicle = await getVehicleBySlug(slug)
+  const vehicles = await getVehicles()
+  const vehicle = vehicles.find((item) => item.slug === slug)
   if (!vehicle) return { title: "Vehicle not found — Wing's Buy n Sell" }
   return {
     title: `${vehicle.brand} ${vehicle.model} ${vehicle.year} — Wing's Buy n Sell`,
@@ -32,11 +37,14 @@ export async function generateMetadata({
 
 export default async function VehicleDetailPage({ params }: PageProps) {
   const { slug } = await params
-  const vehicle = await getVehicleBySlug(slug)
+  const vehicles = await getVehicles()
+  const vehicle = vehicles.find((item) => item.slug === slug)
   if (!vehicle) notFound()
 
   const images = vehicleImages(vehicle)
-  const related = await getRelatedVehicles(vehicle.slug, 3)
+  const related = vehicles
+    .filter((item) => item.slug !== vehicle.slug)
+    .slice(0, 3)
   const alt = `${vehicle.brand} ${vehicle.model}`
 
   return (
