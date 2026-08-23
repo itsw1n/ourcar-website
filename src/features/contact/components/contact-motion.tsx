@@ -9,11 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Container } from '@/components/layout/container'
 import { cn } from '@/lib/utils'
 import { useIsomorphicLayoutEffect } from '@/lib/use-isomorphic-layout-effect'
-import {
-  siteConfig,
-  getMessengerHref,
-  getPhoneHref,
-} from '@/config/site'
+import { siteConfig, getMessengerHref, getPhoneHref } from '@/config/site'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -38,16 +34,43 @@ export function ContactMotion() {
       }
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      tl.from('.contact-eyebrow', { y: 20, opacity: 0, duration: 0.6, immediateRender: true })
-        .from('.contact-heading', { y: 40, opacity: 0, duration: 0.9, immediateRender: true }, 0.1)
-        .from('.contact-desc', { y: 24, opacity: 0, duration: 0.7, immediateRender: true }, 0.25)
+      tl.from('.contact-eyebrow', {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        immediateRender: true,
+      })
+        .from(
+          '.contact-heading',
+          { y: 40, opacity: 0, duration: 0.9, immediateRender: true },
+          0.1
+        )
+        .from(
+          '.contact-desc',
+          { y: 24, opacity: 0, duration: 0.7, immediateRender: true },
+          0.25
+        )
         .from(
           '.contact-actions > *',
-          { y: 20, opacity: 0, duration: 0.6, stagger: 0.08, immediateRender: true },
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.08,
+            immediateRender: true,
+          },
           0.35
         )
-        .from('.contact-location', { y: 24, opacity: 0, duration: 0.7, immediateRender: true }, 0.45)
-        .from('.contact-media', { y: 40, opacity: 0, duration: 1, immediateRender: true }, 0.2)
+        .from(
+          '.contact-location',
+          { y: 24, opacity: 0, duration: 0.7, immediateRender: true },
+          0.45
+        )
+        .from(
+          '.contact-media',
+          { y: 40, opacity: 0, duration: 1, immediateRender: true },
+          0.2
+        )
 
       gsap.matchMedia().add('(min-width: 1024px)', () => {
         gsap.to('.contact-media-inner', {
@@ -139,7 +162,11 @@ export function ContactMotion() {
         )}
       >
         <div className={cn('contact-location border-t border-border pt-6')}>
-          <div className={cn('text-3xl font-black uppercase leading-none tracking-tight md:text-4xl')}>
+          <div
+            className={cn(
+              'text-3xl font-black uppercase leading-none tracking-tight md:text-4xl'
+            )}
+          >
             Davao City
           </div>
           <div
@@ -149,7 +176,11 @@ export function ContactMotion() {
           >
             Philippines
           </div>
-          <p className={cn('mt-5 max-w-xs text-sm leading-6 text-muted-foreground')}>
+          <p
+            className={cn(
+              'mt-5 max-w-xs text-sm leading-6 text-muted-foreground'
+            )}
+          >
             {siteConfig.tagline}
           </p>
         </div>

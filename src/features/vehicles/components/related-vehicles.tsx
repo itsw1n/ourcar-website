@@ -11,9 +11,7 @@ export function RelatedVehicles({ vehicles }: { vehicles: Vehicle[] }) {
     <Container className={cn('border-t border-border py-16')}>
       <SectionHeading eyebrow="More to see" title="Other vehicles" />
       <div
-        className={cn(
-          'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'
-        )}
+        className={cn('grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3')}
       >
         {vehicles.map((vehicle) => (
           <VehicleCard key={vehicle.id} vehicle={vehicle} className="w-full" />

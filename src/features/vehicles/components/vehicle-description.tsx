@@ -5,7 +5,11 @@ import type { Vehicle } from '@/features/vehicles/types/vehicle'
 export function VehicleDescription({ vehicle }: { vehicle: Vehicle }) {
   return (
     <Container className={cn('border-b border-border py-16')}>
-      <div className={cn('mb-6 text-xs font-bold uppercase tracking-[0.2em] text-primary')}>
+      <div
+        className={cn(
+          'mb-6 text-xs font-bold uppercase tracking-[0.2em] text-primary'
+        )}
+      >
         About this unit
       </div>
       <h2

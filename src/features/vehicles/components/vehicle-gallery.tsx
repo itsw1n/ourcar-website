@@ -74,7 +74,15 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
       }
 
       gsap.set(card, { zIndex: z })
-      const props = { x, y: 0, rotation: rot, scale, opacity, xPercent: -50, yPercent: -50 }
+      const props = {
+        x,
+        y: 0,
+        rotation: rot,
+        scale,
+        opacity,
+        xPercent: -50,
+        yPercent: -50,
+      }
       if (animate && !reduce) {
         gsap.to(card, { ...props, duration: 0.6, ease: 'power3.out' })
       } else {
@@ -262,14 +270,17 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
               'text-xs font-bold uppercase tracking-[0.2em] text-foreground'
             )}
           >
-            {String(active + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+            {String(active + 1).padStart(2, '0')} /{' '}
+            {String(total).padStart(2, '0')}
           </div>
           <div
             className={cn('h-px w-full max-w-[200px] bg-border')}
             role="presentation"
           >
             <div
-              className={cn('h-full bg-primary transition-[width] duration-500 ease-out')}
+              className={cn(
+                'h-full bg-primary transition-[width] duration-500 ease-out'
+              )}
               style={{ width: `${((active + 1) / total) * 100}%` }}
             />
           </div>

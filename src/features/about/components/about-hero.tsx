@@ -29,10 +29,27 @@ export function AboutHeroMotion() {
       }
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      tl.from('.about-eyebrow', { y: 20, opacity: 0, duration: 0.6, immediateRender: true })
-        .from('.about-title', { y: 40, opacity: 0, duration: 0.9, immediateRender: true }, 0.1)
-        .from('.about-copy', { y: 24, opacity: 0, duration: 0.8, immediateRender: true }, 0.3)
-        .from('.about-visual', { x: 80, opacity: 0, duration: 1.1, immediateRender: true }, 0.1)
+      tl.from('.about-eyebrow', {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        immediateRender: true,
+      })
+        .from(
+          '.about-title',
+          { y: 40, opacity: 0, duration: 0.9, immediateRender: true },
+          0.1
+        )
+        .from(
+          '.about-copy',
+          { y: 24, opacity: 0, duration: 0.8, immediateRender: true },
+          0.3
+        )
+        .from(
+          '.about-visual',
+          { x: 80, opacity: 0, duration: 1.1, immediateRender: true },
+          0.1
+        )
     }, root)
 
     return () => ctx.revert()

@@ -39,13 +39,36 @@ export function HeroMotion({
       }
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      tl.from('.hero-kicker', { y: 20, opacity: 0, duration: 0.6, immediateRender: true })
-        .from('.hero-title', { y: 50, opacity: 0, duration: 0.9, immediateRender: true }, 0.1)
-        .from('.hero-copy', { y: 30, opacity: 0, duration: 0.8, immediateRender: true }, 0.25)
-        .from('.hero-actions', { y: 20, opacity: 0, duration: 0.8, immediateRender: true }, 0.35)
+      tl.from('.hero-kicker', {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        immediateRender: true,
+      })
+        .from(
+          '.hero-title',
+          { y: 50, opacity: 0, duration: 0.9, immediateRender: true },
+          0.1
+        )
+        .from(
+          '.hero-copy',
+          { y: 30, opacity: 0, duration: 0.8, immediateRender: true },
+          0.25
+        )
+        .from(
+          '.hero-actions',
+          { y: 20, opacity: 0, duration: 0.8, immediateRender: true },
+          0.35
+        )
         .from(
           '.hero-car',
-          { x: 120, opacity: 0, duration: 1.2, ease: 'power3.out', immediateRender: true },
+          {
+            x: 120,
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            immediateRender: true,
+          },
           0.05
         )
 
