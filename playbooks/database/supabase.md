@@ -5,6 +5,7 @@ Used in: Next.js + Supabase, React + Supabase combos.
 ---
 
 ## Core Rules
+
 - RLS (Row Level Security) enabled on EVERY table — no exceptions
 - Anon key: client-side only, safe to expose
 - Service role key: server-side only, NEVER prefix with NEXT_PUBLIC_
@@ -15,6 +16,7 @@ Used in: Next.js + Supabase, React + Supabase combos.
 ---
 
 ## Environment Variables
+
 ```bash
 # Public — safe in client components
 NEXT_PUBLIC_SUPABASE_URL=https://[project].supabase.co
@@ -29,6 +31,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJ...
 ## Client Setup (Next.js + @supabase/ssr)
 
 ### lib/supabase/client.ts — Browser Client
+
 ```typescript
 import { createBrowserClient } from '@supabase/ssr'
 import type { Database } from '@/types/database.types'
@@ -42,6 +45,7 @@ export function createClient() {
 ```
 
 ### lib/supabase/server.ts — Server Component Client
+
 ```typescript
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
@@ -70,6 +74,7 @@ export async function createClient() {
 ```
 
 ### lib/supabase/admin.ts — Service Role Client (Server Only)
+
 ```typescript
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database.types'
@@ -85,6 +90,7 @@ export const adminClient = createClient<Database>(
 ---
 
 ## Which Client to Use
+
 ```
 Client component     → lib/supabase/client.ts    (browser, anon key)
 Server component     → lib/supabase/server.ts    (server, anon key + cookies)
@@ -98,11 +104,13 @@ Admin operation      → lib/supabase/admin.ts     (server ONLY, service role)
 ## Row Level Security (RLS)
 
 ### Enable on Every Table
+
 ```sql
 ALTER TABLE [table_name] ENABLE ROW LEVEL SECURITY;
 ```
 
 ### Standard RLS Policies
+
 ```sql
 -- Users can only read their own rows
 CREATE POLICY "Users can read own rows"
@@ -127,6 +135,7 @@ CREATE POLICY "Users can delete own rows"
 ```
 
 ### Admin-Only Policy
+
 ```sql
 CREATE POLICY "Admins can read all rows"
   ON [table_name] FOR SELECT
@@ -140,6 +149,7 @@ CREATE POLICY "Admins can read all rows"
 ```
 
 ### Public Read Policy
+
 ```sql
 CREATE POLICY "Anyone can read published posts"
   ON posts FOR SELECT
@@ -151,37 +161,49 @@ CREATE POLICY "Anyone can read published posts"
 ## Supabase Auth Patterns
 
 ### Sign Up
+
 ```typescript
 const { data, error } = await supabase.auth.signUp({
   email,
   password,
   options: {
-    data: { name }   // stored in auth.users.raw_user_meta_data
-  }
+    data: { name }, // stored in auth.users.raw_user_meta_data
+  },
 })
 ```
 
 ### Sign In
+
 ```typescript
-const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+const { data, error } = await supabase.auth.signInWithPassword({
+  email,
+  password,
+})
 ```
 
 ### Sign Out
+
 ```typescript
 await supabase.auth.signOut()
 ```
 
 ### Get Current User (Server Component)
+
 ```typescript
 const supabase = await createClient()
-const { data: { user } } = await supabase.auth.getUser()
+const {
+  data: { user },
+} = await supabase.auth.getUser()
 if (!user) redirect('/login')
 ```
 
 ### Get Current User (Client Component)
+
 ```typescript
 const supabase = createClient()
-const { data: { user } } = await supabase.auth.getUser()
+const {
+  data: { user },
+} = await supabase.auth.getUser()
 ```
 
 ---
@@ -189,6 +211,7 @@ const { data: { user } } = await supabase.auth.getUser()
 ## Data Fetching Patterns
 
 ### Server Component (preferred for initial data)
+
 ```typescript
 export default async function UsersPage() {
   const supabase = await createClient()
@@ -205,6 +228,7 @@ export default async function UsersPage() {
 ```
 
 ### Client Component with TanStack Query
+
 ```typescript
 // features/users/hooks/useUsers.ts
 export function useUsers() {
@@ -225,6 +249,7 @@ export function useUsers() {
 ```
 
 ### Server Action (mutations)
+
 ```typescript
 'use server'
 import { createClient } from '@/lib/supabase/server'
@@ -232,7 +257,9 @@ import { revalidatePath } from 'next/cache'
 
 export async function createPost(formData: FormData) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error('UNAUTHORIZED')
 
   const { error } = await supabase
@@ -247,12 +274,14 @@ export async function createPost(formData: FormData) {
 ---
 
 ## Type Generation
+
 ```bash
 # Generate TypeScript types from your Supabase schema
 npx supabase gen types typescript --project-id [project-id] > src/types/database.types.ts
 ```
 
 Use `Database` type everywhere:
+
 ```typescript
 import type { Database } from '@/types/database.types'
 type User = Database['public']['Tables']['users']['Row']
@@ -262,6 +291,7 @@ type NewUser = Database['public']['Tables']['users']['Insert']
 ---
 
 ## Migrations (Supabase CLI)
+
 ```bash
 # Init (first time)
 npx supabase init
@@ -281,6 +311,7 @@ Migration files: `supabase/migrations/[timestamp]_[name].sql`
 ---
 
 ## Storage Rules
+
 - Bucket policies mirror RLS rules
 - Public buckets: only for truly public assets (logos, public images)
 - Private buckets: user-uploaded content, enforce auth
@@ -295,6 +326,7 @@ CREATE POLICY "Users own their uploads"
 ---
 
 ## Realtime
+
 - Only enable on tables that genuinely need live updates
 - Do NOT enable globally — performance cost
 
@@ -302,14 +334,18 @@ CREATE POLICY "Users own their uploads"
 // Subscribe to changes
 const channel = supabase
   .channel('table-changes')
-  .on('postgres_changes', {
-    event: '*',
-    schema: 'public',
-    table: 'messages',
-    filter: `room_id=eq.${roomId}`
-  }, (payload) => {
-    // handle change
-  })
+  .on(
+    'postgres_changes',
+    {
+      event: '*',
+      schema: 'public',
+      table: 'messages',
+      filter: `room_id=eq.${roomId}`,
+    },
+    (payload) => {
+      // handle change
+    }
+  )
   .subscribe()
 
 // Always unsubscribe on cleanup
@@ -319,6 +355,7 @@ return () => supabase.removeChannel(channel)
 ---
 
 ## Agent Quick Reference
+
 ```
 New table?
   → Enable RLS immediately

@@ -32,6 +32,7 @@
 ## Checklist
 
 ### General
+
 - [ ] Branched off `dev`, not `main`
 - [ ] Branch name follows convention (`feat/`, `fix/`, `refactor/`, `chore/`)
 - [ ] Commits follow `type(scope): description` convention
@@ -39,16 +40,19 @@
 - [ ] No hardcoded secrets or credentials
 
 ### Quality
+
 - [ ] `make lint` passes
 - [ ] `make build` passes
 
 ### Frontend (if applicable)
+
 - [ ] New code lives under `src/features/<name>/` or `src/components/`
 - [ ] No business logic in page/layout files
-- [ ] `cn()` used for conditional classes; `data-component` on reusable UI
+- [ ] `cn()` used for conditional classes; `data-ui` on reusable UI
 - [ ] Supabase calls use the correct client (`client/server/admin`)
 
 ### Docs
+
 - [ ] `AGENTS.md` / `docs/` / `playbooks/` updated if rules changed
 
 ---

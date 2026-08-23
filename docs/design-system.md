@@ -95,22 +95,41 @@ Typography hierarchy should feel confident rather than futuristic.
 Reusable components should follow:
 
 ```tsx
-data-component="vehicle-card"
+data-ui="vehicle-card"
 className={cn("default utilities", className)}
 ```
+
+Every reusable component is tagged with `data-ui` (never `data-component`), so the DOM stays inspectable and AI agents can locate landmarks.
 
 Use semantic names:
 
 - `site-header`
 - `brand-logo`
+- `site-footer`
+- `mobile-navigation`
 - `hero-section`
+- `section-heading`
 - `vehicle-card`
+- `status-badge`
+- `contact-cta`
+- `ui-button`
 - `status-filter`
 - `category-select`
 - `vehicle-gallery`
 - `testimonial-card`
 
 Avoid generic names like `box-1`.
+
+### Button & CTA system
+
+All buttons/links use the single `ui-button` component (`src/components/ui/button.tsx`, CVA-driven). See `docs/button-system.md` for the full contract. Summary:
+
+- Variants: `primary` (red), `dark` (near-black), `outline` (white + border), `ghost` (transparent, used for in-section links).
+- Sizes: `sm` (36px), `md` (44px), `lg` (52px).
+- Shape: `rounded-none`, no glow/gradient/large shadow.
+- Primary hover = black layer sweeps across (`scaleX`); respects `prefers-reduced-motion`.
+- Renders `<a>` or `<button>` from `href`; `group` on root so directional arrows animate.
+- `disabled` (no contact env set) → `opacity-50`, no pointer events.
 
 ## 7. Vehicle Cards
 
