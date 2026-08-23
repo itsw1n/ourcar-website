@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
-import { SmoothScrollProvider } from '@/components/shared/smooth-scroll-provider'
+import { Providers } from '@/components/shared/providers'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 
 export const metadata: Metadata = {
   title: "Wing's Buy n Sell",
@@ -19,9 +21,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {supabaseUrl ? (
+          <link rel="preconnect" href={supabaseUrl} crossOrigin="anonymous" />
+        ) : null}
+      </head>
       <body>
         <NuqsAdapter>
-          <SmoothScrollProvider>{children}</SmoothScrollProvider>
+          {children}
+          <Providers />
         </NuqsAdapter>
       </body>
     </html>
