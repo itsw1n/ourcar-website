@@ -5,6 +5,7 @@ import { useQueryStates, parseAsString, parseAsStringEnum } from 'nuqs'
 import { useVehicles } from '@/features/vehicles/hooks/use-vehicles'
 import type { VehicleStatusFilter as StatusFilter } from '@/features/vehicles/types/vehicle'
 import { mockCategories } from '@/features/vehicles/mock-data'
+import type { Vehicle } from '@/features/vehicles/types/vehicle'
 import { VehicleSearch } from './vehicle-search'
 import { VehicleStatusFilter } from './vehicle-status-filter'
 import { VehicleCategoryFilter } from './vehicle-category-filter'
@@ -12,7 +13,11 @@ import { VehicleResultCount } from './vehicle-result-count'
 import { VehicleEmptyState } from './vehicle-empty-state'
 import { VehicleGrid, VehicleGridSkeleton } from './vehicle-grid'
 
-export function BrowseCars() {
+export function BrowseCars({
+  initialData,
+}: {
+  initialData?: Vehicle[]
+}) {
   const [{ search, status, category }] = useQueryStates(
     {
       search: parseAsString,
@@ -28,6 +33,7 @@ export function BrowseCars() {
     search: search ?? '',
     status: (status ?? 'all') as StatusFilter,
     category: category ?? '',
+    initialData,
   })
 
   return (

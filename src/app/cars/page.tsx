@@ -8,8 +8,11 @@ import { Section } from '@/components/layout/section'
 import { QueryProvider } from '@/providers/query-provider'
 import { BrowseCars } from '@/features/vehicles/components/browse-cars'
 import { VehicleGridSkeleton } from '@/features/vehicles/components/vehicle-grid'
+import { getVehicles } from '@/features/vehicles/queries/vehicles'
 
-export default function CarsPage() {
+export default async function CarsPage() {
+  const initialData = await getVehicles()
+
   return (
     <>
       <SiteHeader />
@@ -34,7 +37,7 @@ export default function CarsPage() {
 
               <QueryProvider>
                 <Suspense fallback={<VehicleGridSkeleton count={6} />}>
-                  <BrowseCars />
+                  <BrowseCars initialData={initialData} />
                 </Suspense>
               </QueryProvider>
             </Container>
