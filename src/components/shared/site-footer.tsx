@@ -58,6 +58,32 @@ export function SiteFooter() {
           </div>
         </div>
       </Container>
+
+      <div className={cn('border-t border-border')}>
+        <Container
+          className={cn(
+            'flex flex-col items-center justify-between gap-2 py-5 text-xs text-muted-foreground sm:flex-row'
+          )}
+        >
+          <span>
+            © {new Date().getFullYear()} Wing&apos;s Buy n Sell. All rights
+            reserved.
+          </span>
+          <span>
+            Built by{' '}
+            <a
+              href="https://github.com/itsw1n"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                'inline-flex items-center gap-1 font-bold text-foreground transition-colors duration-fast hover:text-primary'
+              )}
+            >
+              itsw1n
+            </a>
+          </span>
+        </Container>
+      </div>
     </footer>
   )
 }
