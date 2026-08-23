@@ -5,10 +5,10 @@ import Image from 'next/image'
 import { ArrowRight, MessageCircle, Phone } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Button } from '@/components/ui/button'
-import { Container } from '@/components/layout/container'
+import { Button } from '@/components/ui/Button'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
-import { useIsomorphicLayoutEffect } from '@/lib/use-isomorphic-layout-effect'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 import { siteConfig, getMessengerHref, getPhoneHref } from '@/config/site'
 
 gsap.registerPlugin(ScrollTrigger)

@@ -4,7 +4,7 @@ import { useRef } from 'react'
 import { cn } from '@/lib/utils'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useIsomorphicLayoutEffect } from '@/lib/use-isomorphic-layout-effect'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 

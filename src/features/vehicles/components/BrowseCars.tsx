@@ -1,17 +1,17 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { useQueryStates, parseAsString, parseAsStringEnum } from 'nuqs'
-import { useVehicles } from '@/features/vehicles/hooks/use-vehicles'
+import { useVehicles } from '@/features/vehicles/hooks/useVehicles'
 import type { VehicleStatusFilter as StatusFilter } from '@/features/vehicles/types/vehicle'
-import { mockCategories } from '@/features/vehicles/mock-data'
+import { mockCategories } from '@/features/vehicles/mockData'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
-import { VehicleSearch } from './vehicle-search'
-import { VehicleStatusFilter } from './vehicle-status-filter'
-import { VehicleCategoryFilter } from './vehicle-category-filter'
-import { VehicleResultCount } from './vehicle-result-count'
-import { VehicleEmptyState } from './vehicle-empty-state'
-import { VehicleGrid, VehicleGridSkeleton } from './vehicle-grid'
+import { VehicleSearch } from './VehicleSearch'
+import { VehicleStatusFilter } from './VehicleStatusFilter'
+import { VehicleCategoryFilter } from './VehicleCategoryFilter'
+import { VehicleResultCount } from './VehicleResultCount'
+import { VehicleEmptyState } from './VehicleEmptyState'
+import { VehicleGrid, VehicleGridSkeleton } from './VehicleGrid'
 
 export function BrowseCars({ initialData }: { initialData?: Vehicle[] }) {
   const [{ search, status, category }] = useQueryStates(

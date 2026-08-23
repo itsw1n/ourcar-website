@@ -12,7 +12,7 @@ import {
 import { ChevronDown } from 'lucide-react'
 import { useQueryState, parseAsString } from 'nuqs'
 import { cn } from '@/lib/utils'
-import type { VehicleCategory } from '@/features/vehicles/mock-data'
+import type { VehicleCategory } from '@/features/vehicles/mockData'
 
 export function VehicleCategoryFilter({
   categories,

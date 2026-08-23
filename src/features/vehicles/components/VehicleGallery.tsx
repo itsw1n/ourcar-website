@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { cn } from '@/lib/utils'
-import { useIsomorphicLayoutEffect } from '@/lib/use-isomorphic-layout-effect'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 

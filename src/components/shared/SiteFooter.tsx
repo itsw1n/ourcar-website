@@ -1,5 +1,5 @@
-import { BrandLogo } from '@/components/shared/brand-logo'
-import { Container } from '@/components/layout/container'
+import { BrandLogo } from '@/components/shared/BrandLogo'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
 import { siteConfig, getMessengerHref, getPhoneHref } from '@/config/site'
 import { MessageCircle, Phone } from 'lucide-react'

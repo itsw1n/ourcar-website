@@ -2,10 +2,10 @@ import { memo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
-import { StatusBadge } from './status-badge'
+import { StatusBadge } from './StatusBadge'
 
 export const VehicleCard = memo(function VehicleCard({
   vehicle,

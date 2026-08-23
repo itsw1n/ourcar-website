@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { VehicleCard } from '@/components/shared/vehicle-card'
+import { VehicleCard } from '@/components/shared/VehicleCard'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
 
 export const VehicleGrid = memo(function VehicleGrid({

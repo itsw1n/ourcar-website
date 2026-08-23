@@ -1,4 +1,4 @@
-import { Container } from '@/components/layout/container'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
 

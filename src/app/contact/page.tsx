@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import { SiteHeader } from '@/components/shared/site-header'
-import { SiteFooter } from '@/components/shared/site-footer'
-import { ContactMotion } from '@/features/contact/components/contact-motion'
+import { SiteHeader } from '@/components/shared/SiteHeader'
+import { SiteFooter } from '@/components/shared/SiteFooter'
+import { ContactMotion } from '@/features/contact/components/ContactMotion'
 
 export const metadata: Metadata = {
   title: "Contact — Wing's Buy n Sell",

@@ -9,7 +9,7 @@ import {
 } from 'react-aria-components'
 import { usePathname } from 'next/navigation'
 import { Menu, X, MessageCircle, Phone } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 import { siteConfig, getMessengerHref, getPhoneHref } from '@/config/site'
 

@@ -1,8 +1,8 @@
-import { SectionHeading } from '@/components/shared/section-heading'
-import { VehicleCard } from '@/components/shared/vehicle-card'
-import { Reveal } from '@/components/shared/reveal'
-import { Section } from '@/components/layout/section'
-import { Container } from '@/components/layout/container'
+import { SectionHeading } from '@/components/shared/SectionHeading'
+import { VehicleCard } from '@/components/shared/VehicleCard'
+import { Reveal } from '@/components/shared/Reveal'
+import { Section } from '@/components/layout/Section'
+import { Container } from '@/components/layout/Container'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
 
 export function AvailableVehicles({ vehicles }: { vehicles: Vehicle[] }) {

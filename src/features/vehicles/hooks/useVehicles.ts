@@ -4,7 +4,7 @@ import { getVehicles } from '@/features/vehicles/queries/vehicles'
 import {
   filterVehicles,
   type VehicleFilters,
-} from '@/features/vehicles/queries/filter-vehicles'
+} from '@/features/vehicles/queries/filterVehicles'
 import type {
   Vehicle,
   VehicleStatusFilter,

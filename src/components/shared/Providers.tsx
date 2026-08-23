@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 
 const SmoothScrollProvider = dynamic(
   () =>
-    import('@/components/shared/smooth-scroll-provider').then(
+    import('@/components/shared/SmoothScrollProvider').then(
       (m) => m.SmoothScrollProvider
     ),
   { ssr: false }

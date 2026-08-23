@@ -1,6 +1,6 @@
-import { mockVehicles } from '../mock-data'
+import { mockVehicles } from '../mockData'
 import type { Vehicle } from '../types/vehicle'
-import { isMockMode } from '@/lib/data-source'
+import { isMockMode } from '@/lib/dataSource'
 
 export { mockVehicles }
 

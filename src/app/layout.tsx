@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
-import { Providers } from '@/components/shared/providers'
+import { Providers } from '@/components/shared/Providers'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 

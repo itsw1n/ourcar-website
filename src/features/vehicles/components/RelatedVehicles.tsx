@@ -1,6 +1,6 @@
-import { Container } from '@/components/layout/container'
-import { SectionHeading } from '@/components/shared/section-heading'
-import { VehicleCard } from '@/components/shared/vehicle-card'
+import { Container } from '@/components/layout/Container'
+import { SectionHeading } from '@/components/shared/SectionHeading'
+import { VehicleCard } from '@/components/shared/VehicleCard'
 import { cn } from '@/lib/utils'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
 

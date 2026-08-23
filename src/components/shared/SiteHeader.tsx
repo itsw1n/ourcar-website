@@ -4,15 +4,15 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { MessageCircle, Phone } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { BrandLogo } from '@/components/shared/brand-logo'
-import { Container } from '@/components/layout/container'
+import { Button } from '@/components/ui/Button'
+import { BrandLogo } from '@/components/shared/BrandLogo'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
 import { siteConfig, getMessengerHref, getPhoneHref } from '@/config/site'
 
 const MobileNavigation = dynamic(
   () =>
-    import('@/components/shared/mobile-navigation').then(
+    import('@/components/shared/MobileNavigation').then(
       (m) => m.MobileNavigation
     ),
   { ssr: false }

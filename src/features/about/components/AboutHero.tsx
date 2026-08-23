@@ -3,9 +3,9 @@
 import { useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
-import { Container } from '@/components/layout/container'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
-import { useIsomorphicLayoutEffect } from '@/lib/use-isomorphic-layout-effect'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 
 export function AboutHeroMotion() {
   const root = useRef<HTMLElement>(null)
