@@ -197,7 +197,6 @@ export function ContactMotion() {
               fill
               className="object-contain p-8"
               sizes="(min-width: 1024px) 55vw, 100vw"
-              priority
             />
           </div>
         </div>

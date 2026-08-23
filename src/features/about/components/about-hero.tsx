@@ -85,6 +85,7 @@ export function AboutHeroMotion() {
             fill
             className="object-contain"
             priority
+            sizes="(min-width: 1024px) 45vw, 100vw"
           />
         </div>
       </Container>

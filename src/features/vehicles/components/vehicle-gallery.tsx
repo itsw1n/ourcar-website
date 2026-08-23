@@ -146,7 +146,6 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
         },
       })
 
-      return () => st.kill()
     }, root)
 
     return () => ctx.revert()
@@ -226,6 +225,8 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
                 alt={`${alt} — photo ${i + 1} of ${total}`}
                 fill
                 draggable={false}
+                priority={i === 0}
+                loading={i === 0 ? undefined : 'lazy'}
                 className={cn('object-contain p-4', i === active && 'p-6')}
                 sizes="(min-width: 1024px) 460px, 80vw"
               />

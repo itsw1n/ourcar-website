@@ -31,6 +31,7 @@ export function SoldUnits({ vehicles }: { vehicles: Vehicle[] }) {
                   src={vehicle.image}
                   alt={`${vehicle.brand} ${vehicle.model}`}
                   fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
                   className="object-contain p-4"
                 />
                 <StatusBadge
