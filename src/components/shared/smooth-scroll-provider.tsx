@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -12,10 +13,14 @@ export function SmoothScrollProvider({
 }: {
   children: React.ReactNode
 }) {
+  const pathname = usePathname()
+  const lenisRef = useRef<Lenis | null>(null)
+
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const lenis = new Lenis({ lerp: 0.1, smoothWheel: true })
+    lenisRef.current = lenis
     lenis.on('scroll', ScrollTrigger.update)
 
     const update = (time: number) => lenis.raf(time * 1000)
@@ -25,8 +30,15 @@ export function SmoothScrollProvider({
     return () => {
       gsap.ticker.remove(update)
       lenis.destroy()
+      lenisRef.current = null
     }
   }, [])
+
+  useEffect(() => {
+    lenisRef.current?.scrollTo(0, { immediate: true })
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh())
+    return () => cancelAnimationFrame(id)
+  }, [pathname])
 
   return <>{children}</>
 }
