@@ -7,6 +7,7 @@ import {
   Dialog,
   Button as AriaButton,
 } from 'react-aria-components'
+import { usePathname } from 'next/navigation'
 import { Menu, X, MessageCircle, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -15,6 +16,10 @@ import { siteConfig, getMessengerHref, getPhoneHref } from '@/config/site'
 export function MobileNavigation() {
   const messenger = getMessengerHref()
   const phone = getPhoneHref()
+  const pathname = usePathname()
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
     <DialogTrigger>
@@ -49,7 +54,8 @@ export function MobileNavigation() {
                       key={item.href}
                       href={item.href}
                       onClick={close}
-                      className="border-b border-border py-4 text-sm font-bold uppercase tracking-wider transition-colors duration-fast hover:text-primary"
+                      aria-current={isActive(item.href) ? 'true' : undefined}
+                      className="border-b border-border py-4 text-sm font-bold uppercase tracking-wider transition-colors duration-fast hover:text-primary aria-[current=true]:text-primary"
                     >
                       {item.label}
                     </a>
