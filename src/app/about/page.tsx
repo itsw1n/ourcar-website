@@ -55,8 +55,6 @@ export default function AboutPage() {
     <>
       <SiteHeader />
       <main>
-        <AboutHeroMotion />
-
         <Section
           data-ui="experience-statement"
           className="border-b border-border py-24"
@@ -156,34 +154,6 @@ export default function AboutPage() {
                   <p className="mt-3 text-sm text-muted-foreground">{text}</p>
                 </div>
               ))}
-            </div>
-          </Container>
-        </Section>
-
-        <Section data-ui="about-trust" className="border-b border-border py-24">
-          <Container className="flex flex-col items-start gap-10">
-            <div>
-              <h2 className="text-3xl font-black uppercase tracking-tight md:text-4xl">
-                See the proof in previous units.
-              </h2>
-              <p className="mt-4 max-w-xl text-muted-foreground">
-                Sold vehicles stay visible on the site — a record of past work
-                you can browse.
-              </p>
-              <div className="mt-6">
-                <Button variant="ghost" size="md" href="/cars?status=sold">
-                  View sold units
-                  <ArrowRight
-                    size={16}
-                    aria-hidden="true"
-                    className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0"
-                  />
-                </Button>
-              </div>
-            </div>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              Davao City
-              <span className="mt-1 block text-foreground">Philippines</span>
             </div>
           </Container>
         </Section>
