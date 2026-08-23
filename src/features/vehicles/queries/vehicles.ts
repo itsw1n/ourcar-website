@@ -14,18 +14,3 @@ export async function getFeaturedVehicles(): Promise<Vehicle[]> {
   const vehicles = await getVehicles()
   return vehicles.filter((vehicle) => vehicle.featured)
 }
-
-export async function getVehicleBySlug(slug: string): Promise<Vehicle | null> {
-  const vehicles = await getVehicles()
-  return vehicles.find((vehicle) => vehicle.slug === slug) ?? null
-}
-
-export async function getRelatedVehicles(
-  currentSlug: string,
-  limit = 3
-): Promise<Vehicle[]> {
-  const vehicles = await getVehicles()
-  return vehicles
-    .filter((vehicle) => vehicle.slug !== currentSlug)
-    .slice(0, limit)
-}
