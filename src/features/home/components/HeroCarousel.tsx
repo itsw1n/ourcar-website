@@ -133,6 +133,7 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
               alt={slide.caption ?? 'Featured vehicle'}
               fill
               priority={i === 0}
+              sizes="(min-width: 1024px) 60vw, 100vw"
               className={cn('object-contain')}
             />
           </div>

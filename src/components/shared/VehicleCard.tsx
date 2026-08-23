@@ -1,12 +1,13 @@
+import { memo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
-import { StatusBadge } from './status-badge'
+import { StatusBadge } from './StatusBadge'
 
-export function VehicleCard({
+export const VehicleCard = memo(function VehicleCard({
   vehicle,
   className,
 }: {
@@ -32,6 +33,7 @@ export function VehicleCard({
             src={vehicle.image}
             alt={`${vehicle.brand} ${vehicle.model}`}
             fill
+            sizes="(min-width: 768px) 280px, 90vw"
             className="object-contain p-2 transition-transform duration-200 group-hover:scale-[1.03]"
           />
           <StatusBadge
@@ -73,4 +75,4 @@ export function VehicleCard({
       </div>
     </article>
   )
-}
+})

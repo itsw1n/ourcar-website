@@ -26,6 +26,9 @@ export const mockVehicles: Vehicle[] = [
     status: 'available',
     featured: true,
     image: '/mock-car-2.png',
+    images: ['/mock-car-2.png', '/mock-car.png', '/mock-car-3.png'],
+    description:
+      'A tidy 2022 Suzuki Every with low mileage and a smooth automatic gearbox. Ideal for city errands and family runs around Davao.',
   },
   {
     id: '2',
@@ -39,6 +42,9 @@ export const mockVehicles: Vehicle[] = [
     status: 'available',
     featured: true,
     image: '/mock-car-3.png',
+    images: ['/mock-car-3.png', '/mock-car-2.png', '/mock-car.png'],
+    description:
+      '2021 Nissan NV100 in great shape with an automatic transmission. A practical Japanese surplus mini van for daily use.',
   },
   {
     id: '3',
@@ -52,6 +58,9 @@ export const mockVehicles: Vehicle[] = [
     status: 'sold',
     featured: false,
     image: '/mock-car.png',
+    images: ['/mock-car.png', '/mock-car-2.png', '/mock-car-3.png'],
+    description:
+      'A 2021 Daihatsu Hijet that has already found its new owner. Shown here as an example of the units we source and prepare.',
   },
   {
     id: '4',
@@ -65,6 +74,9 @@ export const mockVehicles: Vehicle[] = [
     status: 'available',
     featured: false,
     image: '/mock-car.png',
+    images: ['/mock-car.png', '/mock-car-3.png', '/mock-car-2.png'],
+    description:
+      'A 2020 Suzuki Carry multi-cab with a manual transmission. Built for light hauling and tight city streets.',
   },
   {
     id: '5',
@@ -78,6 +90,9 @@ export const mockVehicles: Vehicle[] = [
     status: 'available',
     featured: true,
     image: '/mock-car.png',
+    images: ['/mock-car.png', '/mock-car-2.png', '/mock-car-3.png'],
+    description:
+      'A 2019 Toyota HiAce with a manual gearbox and higher mileage. A dependable workhorse van for passenger or cargo use.',
   },
   {
     id: '6',
@@ -91,6 +106,9 @@ export const mockVehicles: Vehicle[] = [
     status: 'sold',
     featured: false,
     image: '/mock-car.png',
+    images: ['/mock-car.png', '/mock-car-3.png', '/mock-car-2.png'],
+    description:
+      'A 2018 Mitsubishi Fuso Canter that has been sold. A solid example of the larger trucks we occasionally handle.',
   },
   {
     id: '7',
@@ -104,5 +122,8 @@ export const mockVehicles: Vehicle[] = [
     status: 'sold',
     featured: false,
     image: '/mock-car.png',
+    images: ['/mock-car.png', '/mock-car-2.png', '/mock-car-3.png'],
+    description:
+      'A 2017 Mazda Bongo that has already been sold. Shown as an example of the vans we prepare for new owners.',
   },
 ]

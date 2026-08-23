@@ -4,10 +4,11 @@ import { useEffect, useRef } from 'react'
 import { MessageCircle, Phone } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Button } from '@/components/ui/button'
-import { Container } from '@/components/layout/container'
-import { HeroCarousel } from '@/features/home/components/hero-carousel'
+import { Button } from '@/components/ui/Button'
+import { Container } from '@/components/layout/Container'
+import { HeroCarousel } from '@/features/home/components/HeroCarousel'
 import { cn } from '@/lib/utils'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 import { getMessengerHref, getPhoneHref } from '@/config/site'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -23,7 +24,7 @@ export function HeroMotion({
 }) {
   const root = useRef<HTMLElement>(null)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const el = root.current
     if (!el) return
 
@@ -38,13 +39,36 @@ export function HeroMotion({
       }
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      tl.from('.hero-kicker', { y: 20, opacity: 0, duration: 0.6 })
-        .from('.hero-title', { y: 50, opacity: 0, duration: 0.9 }, 0.1)
-        .from('.hero-copy', { y: 30, opacity: 0, duration: 0.8 }, 0.25)
-        .from('.hero-actions', { y: 20, opacity: 0, duration: 0.8 }, 0.35)
+      tl.from('.hero-kicker', {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        immediateRender: true,
+      })
+        .from(
+          '.hero-title',
+          { y: 50, opacity: 0, duration: 0.9, immediateRender: true },
+          0.1
+        )
+        .from(
+          '.hero-copy',
+          { y: 30, opacity: 0, duration: 0.8, immediateRender: true },
+          0.25
+        )
+        .from(
+          '.hero-actions',
+          { y: 20, opacity: 0, duration: 0.8, immediateRender: true },
+          0.35
+        )
         .from(
           '.hero-car',
-          { x: 120, opacity: 0, duration: 1.2, ease: 'power3.out' },
+          {
+            x: 120,
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            immediateRender: true,
+          },
           0.05
         )
 

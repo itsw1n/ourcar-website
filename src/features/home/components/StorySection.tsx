@@ -1,8 +1,8 @@
 import { Wrench } from 'lucide-react'
-import { StoryTimeline } from './story-timeline'
-import { Reveal } from '@/components/shared/reveal'
-import { Section } from '@/components/layout/section'
-import { Container } from '@/components/layout/container'
+import { StoryTimeline } from './StoryTimeline'
+import { Reveal } from '@/components/shared/Reveal'
+import { Section } from '@/components/layout/Section'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
 
 export function StorySection() {

@@ -1,10 +1,10 @@
 import { Star } from 'lucide-react'
-import { SectionHeading } from '@/components/shared/section-heading'
-import { Reveal } from '@/components/shared/reveal'
-import { Section } from '@/components/layout/section'
-import { Container } from '@/components/layout/container'
+import { SectionHeading } from '@/components/shared/SectionHeading'
+import { Reveal } from '@/components/shared/Reveal'
+import { Section } from '@/components/layout/Section'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
-import { mockTestimonials } from '@/features/testimonials/mock-data'
+import { mockTestimonials } from '@/features/testimonials/mockData'
 
 export function Testimonials() {
   return (

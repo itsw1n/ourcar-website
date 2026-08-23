@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { User, Wrench, Handshake, MapPin } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -34,7 +35,7 @@ const milestones = [
 export function StoryTimeline() {
   const root = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const el = root.current
     if (!el) return
 
@@ -56,6 +57,7 @@ export function StoryTimeline() {
           scaleY: 1,
           transformOrigin: 'top',
           ease: 'none',
+          immediateRender: true,
           scrollTrigger: {
             trigger: el,
             start: 'top 75%',
@@ -71,6 +73,7 @@ export function StoryTimeline() {
           y: 24,
           duration: 0.6,
           delay: i * 0.12,
+          immediateRender: true,
           scrollTrigger: { trigger: item, start: 'top 85%' },
         })
       })

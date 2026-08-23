@@ -1,7 +1,12 @@
-import { VehicleCard } from '@/components/shared/vehicle-card'
+import { memo } from 'react'
+import { VehicleCard } from '@/components/shared/VehicleCard'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
 
-export function VehicleGrid({ vehicles }: { vehicles: Vehicle[] }) {
+export const VehicleGrid = memo(function VehicleGrid({
+  vehicles,
+}: {
+  vehicles: Vehicle[]
+}) {
   return (
     <div
       data-ui="vehicle-grid"
@@ -12,7 +17,7 @@ export function VehicleGrid({ vehicles }: { vehicles: Vehicle[] }) {
       ))}
     </div>
   )
-}
+})
 
 export function VehicleGridSkeleton({ count = 6 }: { count?: number }) {
   return (

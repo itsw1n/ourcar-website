@@ -1,17 +1,32 @@
+'use client'
+
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { MessageCircle, Phone } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { BrandLogo } from '@/components/shared/brand-logo'
-import { MobileNavigation } from '@/components/shared/mobile-navigation'
-import { Container } from '@/components/layout/container'
+import { Button } from '@/components/ui/Button'
+import { BrandLogo } from '@/components/shared/BrandLogo'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
 import { siteConfig, getMessengerHref, getPhoneHref } from '@/config/site'
 
-const navLinkClassName = `group relative transition-colors duration-200 hover:text-primary after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 after:content-[''] hover:after:scale-x-100 motion-reduce:after:transition-none motion-reduce:hover:after:scale-x-0`
+const MobileNavigation = dynamic(
+  () =>
+    import('@/components/shared/MobileNavigation').then(
+      (m) => m.MobileNavigation
+    ),
+  { ssr: false }
+)
+
+const navLinkClassName = `group relative transition-colors duration-200 hover:text-primary aria-[current=true]:text-primary after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 after:content-[''] hover:after:scale-x-100 aria-[current=true]:after:scale-x-100 motion-reduce:after:transition-none motion-reduce:hover:after:scale-x-0`
 
 export function SiteHeader() {
   const messenger = getMessengerHref()
   const phone = getPhoneHref()
+  const pathname = usePathname()
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
     <header
@@ -33,7 +48,12 @@ export function SiteHeader() {
           )}
         >
           {siteConfig.navigation.map((item) => (
-            <a key={item.href} href={item.href} className={navLinkClassName}>
+            <a
+              key={item.href}
+              href={item.href}
+              aria-current={isActive(item.href) ? 'true' : undefined}
+              className={navLinkClassName}
+            >
               {item.label}
             </a>
           ))}

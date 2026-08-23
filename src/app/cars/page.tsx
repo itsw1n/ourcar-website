@@ -1,15 +1,18 @@
 import { Suspense } from 'react'
-import { SiteHeader } from '@/components/shared/site-header'
-import { SiteFooter } from '@/components/shared/site-footer'
-import { ContactCTA } from '@/components/shared/contact-cta'
-import { Reveal } from '@/components/shared/reveal'
-import { Container } from '@/components/layout/container'
-import { Section } from '@/components/layout/section'
-import { QueryProvider } from '@/providers/query-provider'
-import { BrowseCars } from '@/features/vehicles/components/browse-cars'
-import { VehicleGridSkeleton } from '@/features/vehicles/components/vehicle-grid'
+import { SiteHeader } from '@/components/shared/SiteHeader'
+import { SiteFooter } from '@/components/shared/SiteFooter'
+import { ContactCTA } from '@/components/shared/ContactCta'
+import { Reveal } from '@/components/shared/Reveal'
+import { Container } from '@/components/layout/Container'
+import { Section } from '@/components/layout/Section'
+import { QueryProvider } from '@/components/shared/QueryProvider'
+import { BrowseCars } from '@/features/vehicles/components/BrowseCars'
+import { VehicleGridSkeleton } from '@/features/vehicles/components/VehicleGrid'
+import { getVehicles } from '@/features/vehicles/queries/vehicles'
 
-export default function CarsPage() {
+export default async function CarsPage() {
+  const initialData = await getVehicles()
+
   return (
     <>
       <SiteHeader />
@@ -34,7 +37,7 @@ export default function CarsPage() {
 
               <QueryProvider>
                 <Suspense fallback={<VehicleGridSkeleton count={6} />}>
-                  <BrowseCars />
+                  <BrowseCars initialData={initialData} />
                 </Suspense>
               </QueryProvider>
             </Container>

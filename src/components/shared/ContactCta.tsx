@@ -1,7 +1,7 @@
 import { MessageCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Section } from '@/components/layout/section'
-import { Container } from '@/components/layout/container'
+import { Button } from '@/components/ui/Button'
+import { Section } from '@/components/layout/Section'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
 import { getMessengerHref } from '@/config/site'
 

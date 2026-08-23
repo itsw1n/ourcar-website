@@ -1,15 +1,16 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
-import { Container } from '@/components/layout/container'
+import { Container } from '@/components/layout/Container'
 import { cn } from '@/lib/utils'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 
 export function AboutHeroMotion() {
   const root = useRef<HTMLElement>(null)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const el = root.current
     if (!el) return
 
@@ -28,10 +29,27 @@ export function AboutHeroMotion() {
       }
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      tl.from('.about-eyebrow', { y: 20, opacity: 0, duration: 0.6 })
-        .from('.about-title', { y: 40, opacity: 0, duration: 0.9 }, 0.1)
-        .from('.about-copy', { y: 24, opacity: 0, duration: 0.8 }, 0.3)
-        .from('.about-visual', { x: 80, opacity: 0, duration: 1.1 }, 0.1)
+      tl.from('.about-eyebrow', {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        immediateRender: true,
+      })
+        .from(
+          '.about-title',
+          { y: 40, opacity: 0, duration: 0.9, immediateRender: true },
+          0.1
+        )
+        .from(
+          '.about-copy',
+          { y: 24, opacity: 0, duration: 0.8, immediateRender: true },
+          0.3
+        )
+        .from(
+          '.about-visual',
+          { x: 80, opacity: 0, duration: 1.1, immediateRender: true },
+          0.1
+        )
     }, root)
 
     return () => ctx.revert()
@@ -67,6 +85,7 @@ export function AboutHeroMotion() {
             fill
             className="object-contain"
             priority
+            sizes="(min-width: 1024px) 45vw, 100vw"
           />
         </div>
       </Container>
