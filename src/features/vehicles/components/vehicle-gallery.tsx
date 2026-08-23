@@ -145,7 +145,6 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
           )
         },
       })
-
     }, root)
 
     return () => ctx.revert()

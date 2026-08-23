@@ -5,7 +5,10 @@ import {
   filterVehicles,
   type VehicleFilters,
 } from '@/features/vehicles/queries/filter-vehicles'
-import type { Vehicle, VehicleStatusFilter } from '@/features/vehicles/types/vehicle'
+import type {
+  Vehicle,
+  VehicleStatusFilter,
+} from '@/features/vehicles/types/vehicle'
 
 export function useVehicles(filters: {
   search?: string

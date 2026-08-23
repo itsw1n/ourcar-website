@@ -13,11 +13,7 @@ import { VehicleResultCount } from './vehicle-result-count'
 import { VehicleEmptyState } from './vehicle-empty-state'
 import { VehicleGrid, VehicleGridSkeleton } from './vehicle-grid'
 
-export function BrowseCars({
-  initialData,
-}: {
-  initialData?: Vehicle[]
-}) {
+export function BrowseCars({ initialData }: { initialData?: Vehicle[] }) {
   const [{ search, status, category }] = useQueryStates(
     {
       search: parseAsString,

@@ -37,9 +37,8 @@ export function SmoothScrollProvider() {
         ])
       if (cancelled) return
 
-      const gsap = (
-        (gsapModule as { default?: GsapLike }).default ?? gsapModule
-      ) as GsapLike
+      const gsap = ((gsapModule as { default?: GsapLike }).default ??
+        gsapModule) as GsapLike
       const ScrollTrigger = (
         scrollTriggerModule as { ScrollTrigger: ScrollTriggerLike }
       ).ScrollTrigger
