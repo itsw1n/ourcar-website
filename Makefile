@@ -1,55 +1,51 @@
-# =============================================================================
-# Makefile — Wing's Buy n Sell (Next.js + Supabase)
-# =============================================================================
+# ── Local full stack (Supabase + Next.js against LOCAL db) ──
+dev:
+	supabase start
+	set -a; . ./scripts/local-env.sh; set +a; npm run dev
 
-.DEFAULT_GOAL := help
+stop:
+	supabase stop
+	-pkill -f "next dev" || true
 
-.PHONY: help dev dev-mock build lint test format format-check db-start db-stop db-reset db-types init deploy deploy-preview
+# Mock-only (zero database) dev
+dev-mock:
+	npm run dev
 
-help: ## Show all commands
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+# Supabase lifecycle
+supabase-start:
+	supabase start
+supabase-stop:
+	supabase stop
 
-dev: ## Start Next.js dev server + local Supabase stack
-	npx supabase start && npm run dev
+# Wipe + migrations + seed data + seed images + admin (fresh local fake data)
+db-reset:
+	supabase db reset
+	set -a; . ./scripts/local-env.sh; set +a; node scripts/seed-storage.mjs && node scripts/seed-admin.mjs && psql "$$DATABASE_URL" -c "update public.profiles set role='admin' where id=(select id from auth.users where email='admin@local.dev');"
 
-dev-mock: ## Dev server in mock mode (no local Supabase required)
-	NEXT_PUBLIC_DATA_SOURCE=mock npm run dev
+# Re-seed data + images + admin onto current schema (no full reset)
+db-seed:
+	set -a; . ./scripts/local-env.sh; set +a; psql "$$DATABASE_URL" -f supabase/seed.sql && node scripts/seed-storage.mjs && node scripts/seed-admin.mjs && psql "$$DATABASE_URL" -c "update public.profiles set role='admin' where id=(select id from auth.users where email='admin@local.dev');"
 
-build: ## Build Next.js for production
-	npm run build
+# Fully wipe local content data (keeps schema + admin profile)
+db-wipe:
+	supabase db reset --no-seed
 
-lint: ## Run ESLint
+# Regenerate src/types/database.types.ts from local schema
+db-types:
+	supabase gen types typescript --local > src/types/database.types.ts
+
+# Push migrations to linked PROD project (never seeds)
+db-push:
+	supabase db push
+
+# Quality gates
+lint:
 	npm run lint
-
-test: ## Run Vitest
-	npm run test
-
-format: ## Format code with Prettier
+format:
 	npm run format
-
-format-check: ## Check formatting without writing
+format-check:
 	npm run format:check
-
-db-start: ## Start local Supabase stack
-	npx supabase start
-
-db-stop: ## Stop local Supabase stack
-	npx supabase stop
-
-db-reset: ## Reset local DB (apply migrations + seed)
-	npx supabase db reset
-
-db-types: ## Regenerate TypeScript types from Supabase schema
-	npx supabase gen types typescript --local > src/types/database.types.ts
-
-init: ## Scaffold project folder structure
-	@mkdir -p src/{app,features,components/{ui,shared},lib/supabase,stores,types,schemas}
-	@mkdir -p docs
-	@echo "✅ Done. Run: make dev"
-
-deploy: ## Deploy to Vercel production
-	npx vercel --prod
-
-deploy-preview: ## Deploy to Vercel preview
-	npx vercel
+typecheck:
+	npx tsc --noEmit
+build:
+	npm run build

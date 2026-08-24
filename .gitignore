@@ -34,3 +34,7 @@ next-env.d.ts
 # OS
 .DS_Store
 Thumbs.db
+
+# Supabase local temp artifacts
+supabase/.temp
+supabase/.branches
