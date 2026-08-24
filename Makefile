@@ -1,55 +1,62 @@
-# =============================================================================
-# Makefile — Wing's Buy n Sell (Next.js + Supabase)
-# =============================================================================
+# ─────────────────────────────────────────────────────────────────────────────
+# Wing's Buy n Sell — centralized task runner. Run `make help`.
+# Environments: dev (dockerized local), prod (dockerized), dev-mock (host, no DB).
+# Supabase is CLI-managed on the host in every mode.
+# ─────────────────────────────────────────────────────────────────────────────
+SHELL := /usr/bin/env bash
+LOCAL_ENV = set -a; . ./scripts/local-env.sh; set +a;
 
-.DEFAULT_GOAL := help
+.PHONY: help check lint format format-check typecheck build
+.PHONY: dev dev-down dev-mock prod prod-down
+.PHONY: supabase-start supabase-stop
+.PHONY: db-reset db-seed db-clear db-types db-push
 
-.PHONY: help dev dev-mock build lint test format format-check db-start db-stop db-reset db-types init deploy deploy-preview
-
-help: ## Show all commands
+help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+		| awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
 
-dev: ## Start Next.js dev server + local Supabase stack
-	npx supabase start && npm run dev
-
-dev-mock: ## Dev server in mock mode (no local Supabase required)
-	NEXT_PUBLIC_DATA_SOURCE=mock npm run dev
-
-build: ## Build Next.js for production
+# ── Quality gate (mirrors CI) ─────────────────────────────────────────────────
+check: lint format-check typecheck build ## Lint + format + types + build
+lint: ## Lint (next lint)
+	npm run lint
+format: ## Format (prettier write)
+	npm run format
+format-check: ## Verify formatting (no write)
+	npm run format:check
+typecheck: ## Type-check (tsc --noEmit)
+	npx tsc --noEmit
+build: ## Production build
 	npm run build
 
-lint: ## Run ESLint
-	npm run lint
+# ── Supabase lifecycle (primitives) ───────────────────────────────────────────
+supabase-start: ## Start local Supabase
+	supabase start
+supabase-stop: ## Stop local Supabase
+	supabase stop
 
-test: ## Run Vitest
-	npm run test
+# ── Dev (dockerized local) ────────────────────────────────────────────────────
+dev: supabase-start ## Local dev: Supabase + app+nginx in Docker (hot reload)
+	$(LOCAL_ENV) docker compose up --build
+dev-down: ## Stop dev Docker stack (keeps Supabase running)
+	docker compose down
+dev-mock: ## Host dev, no database (mock data source)
+	npm run dev
 
-format: ## Format code with Prettier
-	npm run format
+# ── Prod (dockerized) ─────────────────────────────────────────────────────────
+prod: ## Build + run production stack with .env.prod (TLS-ready)
+	docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+prod-down: ## Stop production Docker stack
+	docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml down
 
-format-check: ## Check formatting without writing
-	npm run format:check
-
-db-start: ## Start local Supabase stack
-	npx supabase start
-
-db-stop: ## Stop local Supabase stack
-	npx supabase stop
-
-db-reset: ## Reset local DB (apply migrations + seed)
-	npx supabase db reset
-
-db-types: ## Regenerate TypeScript types from Supabase schema
-	npx supabase gen types typescript --local > src/types/database.types.ts
-
-init: ## Scaffold project folder structure
-	@mkdir -p src/{app,features,components/{ui,shared},lib/supabase,stores,types,schemas}
-	@mkdir -p docs
-	@echo "✅ Done. Run: make dev"
-
-deploy: ## Deploy to Vercel production
-	npx vercel --prod
-
-deploy-preview: ## Deploy to Vercel preview
-	npx vercel
+# ── Database ───────────────────────────────────────────────────────────────────
+db-reset: supabase-start ## Full reset: schema+migrations+seed+images+admin
+	supabase db reset
+	$(LOCAL_ENV) node scripts/seed-storage.mjs && node scripts/seed-admin.mjs && psql "$$DATABASE_URL" -c "update public.profiles set role='admin' where id=(select id from auth.users where email='admin@local.dev');"
+db-seed: supabase-start ## Re-seed data/images/admin onto current schema (no migration change)
+	$(LOCAL_ENV) psql "$$DATABASE_URL" -f supabase/seed.sql && node scripts/seed-storage.mjs && node scripts/seed-admin.mjs && psql "$$DATABASE_URL" -c "update public.profiles set role='admin' where id=(select id from auth.users where email='admin@local.dev');"
+db-clear: supabase-start ## Truncate content only — keeps schema, migrations, admin
+	$(LOCAL_ENV) psql "$$DATABASE_URL" -c "truncate table public.vehicle_images, public.vehicles, public.categories, public.testimonials restart identity cascade;"
+db-types: ## Regenerate src/types/database.types.ts
+	supabase gen types typescript --local > src/types/database.types.ts
+db-push: ## Push migrations to PROD (never seeds)
+	supabase db push

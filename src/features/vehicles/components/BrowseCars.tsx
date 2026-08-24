@@ -34,11 +34,14 @@ export function BrowseCars({ initialData }: { initialData?: Vehicle[] }) {
 
   return (
     <div data-ui="browse-cars" className="flex flex-col gap-6">
-      <VehicleSearch />
-
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <VehicleStatusFilter />
-        <VehicleCategoryFilter categories={mockCategories} />
+      <div className="flex flex-col gap-4 md:flex-row md:items-end">
+        <div className="flex-1">
+          <VehicleSearch />
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+          <VehicleStatusFilter />
+          <VehicleCategoryFilter categories={mockCategories} />
+        </div>
       </div>
 
       <VehicleResultCount count={data?.length ?? 0} />

@@ -10,7 +10,7 @@ export const VehicleGrid = memo(function VehicleGrid({
   return (
     <div
       data-ui="vehicle-grid"
-      className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+      className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
     >
       {vehicles.map((vehicle) => (
         <VehicleCard key={vehicle.id} vehicle={vehicle} className="w-full" />
@@ -24,7 +24,7 @@ export function VehicleGridSkeleton({ count = 6 }: { count?: number }) {
     <div
       data-ui="vehicle-grid-skeleton"
       aria-hidden="true"
-      className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+      className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
     >
       {Array.from({ length: count }).map((_, index) => (
         <div key={index} className="flex h-full flex-col border border-border">

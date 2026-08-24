@@ -80,7 +80,7 @@ export function AboutHeroMotion() {
 
         <div className="about-visual relative min-h-[320px] overflow-hidden">
           <Image
-            src="/mock-car.png"
+            src="/mock-car-1.png"
             alt="Japanese surplus mini van worked on by Wing's Buy n Sell"
             fill
             className="object-contain"

@@ -15,12 +15,9 @@ import { vehicleImages } from '@/features/vehicles/types/vehicle'
 
 type PageProps = { params: Promise<{ slug: string }> }
 
-export const revalidate = 3600
-
-export async function generateStaticParams() {
-  const vehicles = await getVehicles()
-  return vehicles.map((vehicle) => ({ slug: vehicle.slug }))
-}
+// Render per-request (SSR) so the production build never depends on a live
+// database connection. Inventory changes via the admin, so fresh data matters.
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({
   params,
