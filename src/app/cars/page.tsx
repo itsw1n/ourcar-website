@@ -10,6 +10,9 @@ import { BrowseCars } from '@/features/vehicles/components/BrowseCars'
 import { VehicleGridSkeleton } from '@/features/vehicles/components/VehicleGrid'
 import { getVehicles } from '@/features/vehicles/queries/vehicles'
 
+// SSR per request — keeps the build hermetic (no DB needed at build time).
+export const dynamic = 'force-dynamic'
+
 export default async function CarsPage() {
   const initialData = await getVehicles()
 
