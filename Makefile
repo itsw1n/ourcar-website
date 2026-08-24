@@ -49,3 +49,20 @@ typecheck:
 	npx tsc --noEmit
 build:
 	npm run build
+
+# ── Docker (frontend containerized; Supabase stays CLI-managed/hosted) ──
+# Local dev: supabase start + app + nginx in Docker (HTTP, hot reload).
+docker-dev:
+	supabase start
+	set -a; . ./scripts/local-env.sh; set +a; docker compose up --build
+
+# Stop the dev Docker stack (keeps Supabase running).
+docker-dev-down:
+	docker compose down
+
+# Production: build + run with nginx (HTTP now, TLS-ready). Uses .env.prod.
+docker-prod:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+docker-prod-down:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml down
