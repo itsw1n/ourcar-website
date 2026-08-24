@@ -1,0 +1,21 @@
+# Production overrides — used by `make docker-prod`.
+# Enables TLS (nginx/prod.tls.conf) + certs. Run with explicit -f flags so the
+# dev override is NOT auto-included.
+#
+#   make docker-prod          # build + run with TLS
+#   make docker-prod-down     # stop
+#
+# Requires a domain + certificates at nginx/certs/{fullchain,privkey}.pem
+# (see nginx/prod.tls.conf). Until then the base HTTP config still serves.
+
+services:
+  app:
+    env_file: .env.prod
+
+  nginx:
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/prod.tls.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
