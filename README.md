@@ -123,6 +123,7 @@ make docker-prod-down
 ```
 
 **Required runtime/env vars**
+
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_DATA_SOURCE=supabase`
   are inlined into the client bundle at **build** time (passed as build args).
 - `SUPABASE_SERVICE_ROLE_KEY` is read at **runtime** by the server for server-side data

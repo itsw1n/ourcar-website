@@ -106,7 +106,9 @@ export function VehiclesTable() {
           ariaLabel="Filter by status"
           hideLabel
           value={status}
-          onChange={(key) => void setStatusFilter(key as 'all' | 'available' | 'sold')}
+          onChange={(key) =>
+            void setStatusFilter(key as 'all' | 'available' | 'sold')
+          }
           options={[
             { value: 'all', label: 'All statuses' },
             { value: 'available', label: 'Available' },
