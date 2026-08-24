@@ -26,7 +26,7 @@ export const mockVehicles: Vehicle[] = [
     status: 'available',
     featured: true,
     image: '/mock-car-2.png',
-    images: ['/mock-car-2.png', '/mock-car.png', '/mock-car-3.png'],
+    images: ['/mock-car-2.png', '/mock-car-1.png', '/mock-car-3.png'],
     description:
       'A tidy 2022 Suzuki Every with low mileage and a smooth automatic gearbox. Ideal for city errands and family runs around Davao.',
   },
@@ -42,7 +42,7 @@ export const mockVehicles: Vehicle[] = [
     status: 'available',
     featured: true,
     image: '/mock-car-3.png',
-    images: ['/mock-car-3.png', '/mock-car-2.png', '/mock-car.png'],
+    images: ['/mock-car-3.png', '/mock-car-2.png', '/mock-car-1.png'],
     description:
       '2021 Nissan NV100 in great shape with an automatic transmission. A practical Japanese surplus mini van for daily use.',
   },
@@ -57,8 +57,8 @@ export const mockVehicles: Vehicle[] = [
     category: 'Mini Van',
     status: 'sold',
     featured: false,
-    image: '/mock-car.png',
-    images: ['/mock-car.png', '/mock-car-2.png', '/mock-car-3.png'],
+    image: '/mock-car-1.png',
+    images: ['/mock-car-1.png', '/mock-car-2.png', '/mock-car-3.png'],
     description:
       'A 2021 Daihatsu Hijet that has already found its new owner. Shown here as an example of the units we source and prepare.',
   },
@@ -73,8 +73,8 @@ export const mockVehicles: Vehicle[] = [
     category: 'Multi-Cab',
     status: 'available',
     featured: false,
-    image: '/mock-car.png',
-    images: ['/mock-car.png', '/mock-car-3.png', '/mock-car-2.png'],
+    image: '/mock-car-1.png',
+    images: ['/mock-car-1.png', '/mock-car-3.png', '/mock-car-2.png'],
     description:
       'A 2020 Suzuki Carry multi-cab with a manual transmission. Built for light hauling and tight city streets.',
   },
@@ -89,8 +89,8 @@ export const mockVehicles: Vehicle[] = [
     category: 'Van',
     status: 'available',
     featured: true,
-    image: '/mock-car.png',
-    images: ['/mock-car.png', '/mock-car-2.png', '/mock-car-3.png'],
+    image: '/mock-car-1.png',
+    images: ['/mock-car-1.png', '/mock-car-2.png', '/mock-car-3.png'],
     description:
       'A 2019 Toyota HiAce with a manual gearbox and higher mileage. A dependable workhorse van for passenger or cargo use.',
   },
@@ -105,8 +105,8 @@ export const mockVehicles: Vehicle[] = [
     category: 'Truck',
     status: 'sold',
     featured: false,
-    image: '/mock-car.png',
-    images: ['/mock-car.png', '/mock-car-3.png', '/mock-car-2.png'],
+    image: '/mock-car-1.png',
+    images: ['/mock-car-1.png', '/mock-car-3.png', '/mock-car-2.png'],
     description:
       'A 2018 Mitsubishi Fuso Canter that has been sold. A solid example of the larger trucks we occasionally handle.',
   },
@@ -121,8 +121,8 @@ export const mockVehicles: Vehicle[] = [
     category: 'Van',
     status: 'sold',
     featured: false,
-    image: '/mock-car.png',
-    images: ['/mock-car.png', '/mock-car-2.png', '/mock-car-3.png'],
+    image: '/mock-car-1.png',
+    images: ['/mock-car-1.png', '/mock-car-2.png', '/mock-car-3.png'],
     description:
       'A 2017 Mazda Bongo that has already been sold. Shown as an example of the vans we prepare for new owners.',
   },
