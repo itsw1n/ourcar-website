@@ -28,17 +28,20 @@ then reach out through Messenger or phone.
 ## Features
 
 **Public site**
+
 - Editorial homepage with featured inventory and the owner's work story.
 - Browse and filter vehicles by search, status (available / sold), and category.
 - Vehicle detail pages with image gallery, specifications, and related units.
 - About and contact pages, with contact actions wired to business Messenger/phone.
 
 **Admin**
+
 - Authenticated admin area (Supabase Auth) for maintaining inventory without code edits.
 - Vehicle CRUD with multi-image upload to Supabase Storage.
 - Category management and testimonial management.
 
 **Data sources**
+
 - **Mock mode** (`NEXT_PUBLIC_DATA_SOURCE=mock`) — runs with zero database, ideal for local UI work.
 - **Supabase mode** — real Postgres, Auth, and Storage in production or full local dev.
 
@@ -57,36 +60,46 @@ then reach out through Messenger or phone.
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - npm
 - [Supabase CLI](https://supabase.com/docs/guides/cli) (only needed for the full local stack)
 
 ### Install
+
 ```bash
 npm install
 ```
 
 ### Environment
+
 Copy the example env file and fill in your values:
+
 ```bash
 cp .env.example .env.local
 ```
+
 Key variables:
+
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 - `NEXT_PUBLIC_BUSINESS_PHONE`, `NEXT_PUBLIC_MESSENGER_URL`
 - `NEXT_PUBLIC_DATA_SOURCE` — `mock` (no database) or `supabase`
 
 ### Develop (mock mode, no database)
+
 ```bash
 npm run dev
 # open http://localhost:3000
 ```
 
 ### Develop (full local Supabase stack)
+
 ```bash
 make dev          # supabase start + inject local env + npm run dev
 ```
+
 Reset and seed the database, then regenerate types:
+
 ```bash
 make db-reset    # migrations + seed data + seed images + admin
 make db-seed     # re-seed data/images/admin without a full reset
@@ -138,6 +151,7 @@ avoid: gradients, neon glows, glassmorphism).
 ## For AI Coding Agents
 
 This repo is configured for agent-assisted development. Before editing code, read:
+
 - `AGENTS.md` (always loaded — the source of truth for stack, branching, and conventions)
 - `docs/` and `playbooks/`
 
