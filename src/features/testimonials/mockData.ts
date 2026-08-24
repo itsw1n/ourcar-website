@@ -4,6 +4,7 @@ export type Testimonial = {
   quote: string
   rating: number
   isMock: boolean
+  isVisible: boolean
 }
 
 export const mockTestimonials: Testimonial[] = [
@@ -14,6 +15,7 @@ export const mockTestimonials: Testimonial[] = [
       'Maayos kaayo ang unit. Salamat sir sa paspas ug honest na transaction!',
     rating: 5,
     isMock: true,
+    isVisible: true,
   },
   {
     id: 't2',
@@ -21,6 +23,7 @@ export const mockTestimonials: Testimonial[] = [
     quote: 'Highly recommended. Quality unit and very approachable seller.',
     rating: 5,
     isMock: true,
+    isVisible: true,
   },
   {
     id: 't3',
@@ -28,5 +31,6 @@ export const mockTestimonials: Testimonial[] = [
     quote: 'From conversion to delivery, solid kaayo. Smooth transaction.',
     rating: 5,
     isMock: true,
+    isVisible: true,
   },
 ]
