@@ -6,12 +6,16 @@ services:
   app:
     build:
       target: dev
+    # Dev uses local Supabase (CLI-managed), NOT .env.prod. Clear it so the
+    # placeholder service-role key doesn't leak into the container.
+    env_file: []
     network_mode: host
     command: npx next dev --hostname 0.0.0.0 -p 3000
     environment:
       - NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
       - NEXT_PUBLIC_SUPABASE_ANON_KEY
       - NEXT_PUBLIC_DATA_SOURCE=supabase
+      - SUPABASE_SERVICE_ROLE_KEY
     volumes:
       - .:/app
       - /app/node_modules
