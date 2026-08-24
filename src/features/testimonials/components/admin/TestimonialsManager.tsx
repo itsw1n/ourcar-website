@@ -29,7 +29,7 @@ import { ConfirmDialog } from '@/features/admin/components/ConfirmDialog'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 import { Star } from 'lucide-react'
-import type { Testimonial } from '@/features/testimonials/mockData'
+import type { Testimonial } from '@/features/testimonials/types/testimonial'
 
 export function TestimonialsManager() {
   const { data, isLoading, error } = useTestimonialsAdmin()

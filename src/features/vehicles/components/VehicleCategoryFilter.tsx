@@ -2,7 +2,7 @@
 
 import { useQueryState, parseAsString } from 'nuqs'
 import { Select } from '@/components/ui/Select'
-import type { VehicleCategory } from '@/features/vehicles/mockData'
+import type { VehicleCategory } from '@/features/vehicles/types/category'
 
 export function VehicleCategoryFilter({
   categories,
