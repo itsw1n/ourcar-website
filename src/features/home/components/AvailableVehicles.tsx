@@ -19,11 +19,9 @@ export function AvailableVehicles({ vehicles }: { vehicles: Vehicle[] }) {
             link={{ label: 'Browse all cars', href: '/cars?status=available' }}
           />
 
-          <div className="flex snap-x gap-5 overflow-x-auto pb-4">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {vehicles.map((vehicle) => (
-              <div key={vehicle.id} className="snap-start">
-                <VehicleCard vehicle={vehicle} />
-              </div>
+              <VehicleCard key={vehicle.id} vehicle={vehicle} />
             ))}
           </div>
         </Container>
