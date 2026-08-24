@@ -18,7 +18,7 @@ const FOCUS = '.hero-kicker, .hero-title, .hero-copy, .hero-actions, .hero-car'
 type HeroSlide = { image: string; caption?: string }
 
 export function HeroMotion({
-  slides = [{ image: '/mock-car.png' }],
+  slides = [{ image: '/mock-car-1.png' }],
 }: {
   slides?: HeroSlide[]
 }) {
