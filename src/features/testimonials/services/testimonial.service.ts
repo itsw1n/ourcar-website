@@ -1,10 +1,10 @@
 import { mockTestimonials } from '@/features/testimonials/mockData'
-import type { Testimonial } from '@/features/testimonials/mockData'
-
-export type { Testimonial } from '@/features/testimonials/mockData'
+import type { Testimonial } from '@/features/testimonials/types/testimonial'
 import { isMockMode } from '@/lib/dataSource'
-import { adminClient } from '@/lib/supabase/admin'
+import { getAdminClient } from '@/lib/supabase/requireUser'
 import { readClient } from '@/lib/supabase/readClient'
+
+export type { Testimonial } from '@/features/testimonials/types/testimonial'
 
 export type TestimonialInput = {
   displayName: string
@@ -49,7 +49,8 @@ export async function createTestimonial(
     return testimonial
   }
 
-  const { data, error } = await adminClient
+  const supabase = await getAdminClient()
+  const { data, error } = await supabase
     .from('testimonials')
     .insert({
       display_name: input.displayName,
@@ -85,7 +86,8 @@ export async function updateTestimonial(
     return testimonial
   }
 
-  const { data, error } = await adminClient
+  const supabase = await getAdminClient()
+  const { data, error } = await supabase
     .from('testimonials')
     .update({
       display_name: input.displayName,
@@ -114,7 +116,8 @@ export async function deleteTestimonial(id: string): Promise<void> {
     if (index !== -1) mockTestimonials.splice(index, 1)
     return
   }
-  const { error } = await adminClient.from('testimonials').delete().eq('id', id)
+  const supabase = await getAdminClient()
+  const { error } = await supabase.from('testimonials').delete().eq('id', id)
   if (error) throw new Error(error.message)
 }
 
@@ -127,7 +130,8 @@ export async function setTestimonialVisible(
     if (testimonial) testimonial.isVisible = isVisible
     return
   }
-  const { error } = await adminClient
+  const supabase = await getAdminClient()
+  const { error } = await supabase
     .from('testimonials')
     .update({ is_visible: isVisible })
     .eq('id', id)
