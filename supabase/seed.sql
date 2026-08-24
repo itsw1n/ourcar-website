@@ -36,20 +36,28 @@ values
     (select id from public.categories where slug = 'van'), 'sold',
     'A 2017 Mazda Bongo that has already been sold. Shown as an example of the vans we prepare for new owners.', false);
 
--- Each vehicle gets the three seed placeholder images (uploaded by scripts/seed-storage.mjs).
+-- Each vehicle's gallery is MONOCHROME: three copies of the same seed image
+-- (uploaded by scripts/seed-storage.mjs) so a car's photos aren't mixed colors.
+-- Primary images (position 1) still differ across vehicles for card variety.
 insert into public.vehicle_images (vehicle_id, storage_path, alt_text, position)
 select
   v.id,
-  img.path,
+  paths.path,
   v.brand || ' ' || v.model,
-  img.pos
+  paths.pos
 from public.vehicles v
-cross join (
+join (
   values
-    ('seed/mock-car-1.png', 0),
-    ('seed/mock-car-2.png', 1),
-    ('seed/mock-car-3.png', 2)
-) as img (path, pos);
+    ('suzuki-every-2022',      array['seed/mock-car-1.png','seed/mock-car-1.png','seed/mock-car-1.png']),
+    ('nissan-nv100-2021',      array['seed/mock-car-2.png','seed/mock-car-2.png','seed/mock-car-2.png']),
+    ('daihatsu-hijet-2021',    array['seed/mock-car-3.png','seed/mock-car-3.png','seed/mock-car-3.png']),
+    ('suzuki-carry-2020',      array['seed/mock-car-4.png','seed/mock-car-4.png','seed/mock-car-4.png']),
+    ('toyota-hiace-2019',      array['seed/mock-car-3.png','seed/mock-car-3.png','seed/mock-car-3.png']),
+    ('mitsubishi-canter-2018', array['seed/mock-car-1.png','seed/mock-car-1.png','seed/mock-car-1.png']),
+    ('mazda-bongo-2017',       array['seed/mock-car-4.png','seed/mock-car-4.png','seed/mock-car-4.png'])
+) as m (slug, paths)
+  on v.slug = m.slug
+cross join lateral unnest(m.paths) with ordinality as paths(path, pos);
 
 insert into public.testimonials (display_name, quote, rating) values
   ('Mock Customer', 'Maayos kaayo ang unit. Salamat sir sa paspas ug honest na transaction!', 5),
