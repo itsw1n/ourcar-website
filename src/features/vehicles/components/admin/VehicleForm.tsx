@@ -4,16 +4,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import {
-  Select,
-  Label,
-  Button as AriaButton,
-  SelectValue,
-  Popover,
-  ListBox,
-  ListBoxItem,
-} from 'react-aria-components'
-import { ChevronDown } from 'lucide-react'
+import { Label } from 'react-aria-components'
 import {
   vehicleFormSchema,
   type VehicleFormValues,
@@ -26,6 +17,7 @@ import {
 } from '@/features/vehicles/hooks/useAdminVehicles'
 import { ImageUploader } from './ImageUploader'
 import { Button } from '@/components/ui/Button'
+import { Select } from '@/components/ui/Select'
 import { LoadingState, ErrorState } from '@/features/admin/components/States'
 import { cn } from '@/lib/utils'
 import { slugify } from '@/lib/utils'
@@ -33,57 +25,6 @@ import type {
   VehicleInput,
   VehicleImageInput,
 } from '@/features/vehicles/types/vehicle'
-
-function SelectField({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  options: { value: string; label: string }[]
-}) {
-  return (
-    <Select
-      selectedKey={value}
-      onSelectionChange={(key) => onChange(String(key))}
-      aria-label={label}
-      className="w-full"
-    >
-      <Label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
-        {label}
-      </Label>
-      <AriaButton className="flex w-full items-center justify-between border border-border bg-background px-4 py-3 text-sm outline-none focus-visible:border-foreground focus-visible:ring-2 focus-visible:ring-primary">
-        <SelectValue />
-        <ChevronDown
-          size={16}
-          aria-hidden="true"
-          className="text-muted-foreground"
-        />
-      </AriaButton>
-      <Popover className="w-full">
-        <ListBox className="border border-border bg-background py-1">
-          {options.map((option) => (
-            <ListBoxItem
-              key={option.value}
-              id={option.value}
-              className={({ isSelected }) =>
-                cn(
-                  'cursor-pointer px-4 py-2 text-sm outline-none',
-                  isSelected ? 'text-primary' : 'text-foreground hover:bg-muted'
-                )
-              }
-            >
-              {option.label}
-            </ListBoxItem>
-          ))}
-        </ListBox>
-      </Popover>
-    </Select>
-  )
-}
 
 export function VehicleForm({ vehicleId }: { vehicleId?: string }) {
   const router = useRouter()
@@ -220,7 +161,7 @@ export function VehicleForm({ vehicleId }: { vehicleId?: string }) {
           />
         </Field>
 
-        <SelectField
+        <Select
           label="Transmission"
           value={watch('transmission')}
           onChange={(value) =>
@@ -232,7 +173,7 @@ export function VehicleForm({ vehicleId }: { vehicleId?: string }) {
           ]}
         />
 
-        <SelectField
+        <Select
           label="Category"
           value={watch('categoryId')}
           onChange={(value) => setValue('categoryId', value)}
@@ -242,7 +183,7 @@ export function VehicleForm({ vehicleId }: { vehicleId?: string }) {
           }))}
         />
 
-        <SelectField
+        <Select
           label="Status"
           value={watch('status')}
           onChange={(value) =>

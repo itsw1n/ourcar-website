@@ -23,7 +23,7 @@ import {
 } from '@/features/admin/components/States'
 import { ConfirmDialog } from '@/features/admin/components/ConfirmDialog'
 import { Button } from '@/components/ui/Button'
-import { cn } from '@/lib/utils'
+import { Select } from '@/components/ui/Select'
 import type { VehicleStatus } from '@/features/vehicles/types/vehicle'
 
 export function VehiclesTable() {
@@ -101,23 +101,19 @@ export function VehiclesTable() {
             className="w-full bg-transparent text-sm outline-none"
           />
         </div>
-        <div className="inline-flex border border-border">
-          {(['all', 'available', 'sold'] as const).map((option) => (
-            <button
-              key={option}
-              data-ui="vehicle-status-filter"
-              onClick={() => setStatusFilter(option)}
-              className={cn(
-                'px-4 py-2 text-xs font-bold uppercase tracking-wider',
-                status === option
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
+        <Select
+          data-ui="vehicle-status-filter"
+          ariaLabel="Filter by status"
+          hideLabel
+          value={status}
+          onChange={(key) => void setStatusFilter(key as 'all' | 'available' | 'sold')}
+          options={[
+            { value: 'all', label: 'All statuses' },
+            { value: 'available', label: 'Available' },
+            { value: 'sold', label: 'Sold' },
+          ]}
+          className="w-44"
+        />
       </div>
 
       {vehicles.length === 0 ? (
