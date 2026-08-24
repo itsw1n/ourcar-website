@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils'
 
 type Slide = { image: string; caption?: string }
 
+const DWELL = 2800
+
 export function HeroCarousel({ slides }: { slides: Slide[] }) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -68,15 +70,22 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
       gsap.to(old, {
         xPercent: -110,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: 'power3.inOut',
+        overwrite: 'auto',
       })
     }
     if (cur) {
       gsap.fromTo(
         cur,
         { xPercent: 110, opacity: 0 },
-        { xPercent: 0, opacity: 1, duration: 0.8, ease: 'power3.inOut' }
+        {
+          xPercent: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: 'power3.inOut',
+          overwrite: 'auto',
+        }
       )
     }
     prevIndex.current = index
@@ -84,10 +93,13 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
 
   useEffect(() => {
     if (reduceRef.current || paused) return
-    const id = setInterval(() => {
+    let timeoutId: ReturnType<typeof setTimeout>
+    const advance = () => {
       setIndex((i) => (i + 1) % slides.length)
-    }, 3000)
-    return () => clearInterval(id)
+      timeoutId = setTimeout(advance, DWELL)
+    }
+    timeoutId = setTimeout(advance, DWELL)
+    return () => clearTimeout(timeoutId)
   }, [paused, slides.length])
 
   useEffect(() => {
@@ -132,7 +144,7 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
               src={slide.image}
               alt={slide.caption ?? 'Featured vehicle'}
               fill
-              priority={i === 0}
+              priority
               sizes="(min-width: 1024px) 60vw, 100vw"
               className={cn('object-contain')}
             />
