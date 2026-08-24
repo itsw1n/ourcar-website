@@ -20,7 +20,7 @@ export function SoldUnits({ vehicles }: { vehicles: Vehicle[] }) {
             title="Quality units. Satisfied buyers."
           />
 
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {vehicles.map((vehicle) => (
               <div
                 key={vehicle.id}
@@ -31,7 +31,7 @@ export function SoldUnits({ vehicles }: { vehicles: Vehicle[] }) {
                   src={vehicle.image}
                   alt={`${vehicle.brand} ${vehicle.model}`}
                   fill
-                  sizes="(min-width: 768px) 33vw, 100vw"
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                   className="object-contain p-4"
                 />
                 <StatusBadge
