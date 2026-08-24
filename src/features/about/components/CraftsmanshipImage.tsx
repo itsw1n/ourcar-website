@@ -43,7 +43,7 @@ export function CraftsmanshipImageMotion() {
       className="relative aspect-[4/3] overflow-hidden bg-muted"
     >
       <Image
-        src="/mock-car.png"
+        src="/mock-car-2.png"
         alt="Japanese surplus mini van — placeholder for workshop imagery"
         fill
         sizes="(min-width: 1024px) 45vw, 100vw"
