@@ -4,6 +4,7 @@ import type { Testimonial } from '@/features/testimonials/mockData'
 export type { Testimonial } from '@/features/testimonials/mockData'
 import { isMockMode } from '@/lib/dataSource'
 import { adminClient } from '@/lib/supabase/admin'
+import { readClient } from '@/lib/supabase/readClient'
 
 export type TestimonialInput = {
   displayName: string
@@ -15,7 +16,8 @@ export type TestimonialInput = {
 export async function listTestimonials(): Promise<Testimonial[]> {
   if (isMockMode) return mockTestimonials
 
-  const { data, error } = await adminClient
+  const supabase = await readClient()
+  const { data, error } = await supabase
     .from('testimonials')
     .select('*')
     .order('created_at', { ascending: false })

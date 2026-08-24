@@ -3,6 +3,7 @@ import { mockCategories } from '../mockData'
 import type { Vehicle, VehicleInput, VehicleStatus } from '../types/vehicle'
 import { isMockMode } from '@/lib/dataSource'
 import { adminClient } from '@/lib/supabase/admin'
+import { readClient } from '@/lib/supabase/readClient'
 import type { VehicleRow } from '@/types/database.types'
 
 const BUCKET = 'vehicle-images'
@@ -10,7 +11,8 @@ const BUCKET = 'vehicle-images'
 type VehicleImageRecord = { storage_path: string; position: number }
 
 function publicUrl(path: string): string {
-  return adminClient.storage.from(BUCKET).getPublicUrl(path).data.publicUrl
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
+  return `${base}/storage/v1/object/public/${BUCKET}/${path}`
 }
 
 function mapMockImages(images: VehicleInput['images']): string[] {
@@ -46,7 +48,8 @@ function mapRow(
 }
 
 async function fetchCategoryName(id: string): Promise<string> {
-  const { data } = await adminClient
+  const supabase = await readClient()
+  const { data } = await supabase
     .from('categories')
     .select('name')
     .eq('id', id)
@@ -57,7 +60,8 @@ async function fetchCategoryName(id: string): Promise<string> {
 async function fetchVehicleImages(
   vehicleId: string
 ): Promise<{ url: string; path: string }[]> {
-  const { data } = await adminClient
+  const supabase = await readClient()
+  const { data } = await supabase
     .from('vehicle_images')
     .select('storage_path, position')
     .eq('vehicle_id', vehicleId)
@@ -72,7 +76,8 @@ async function fetchVehicleImages(
 export async function listVehicles(): Promise<Vehicle[]> {
   if (isMockMode) return mockVehicles
 
-  const { data, error } = await adminClient
+  const supabase = await readClient()
+  const { data, error } = await supabase
     .from('vehicles')
     .select(
       '*, category:categories(name), vehicle_images(storage_path, position)'
@@ -100,7 +105,8 @@ export async function getVehicle(id: string): Promise<Vehicle | null> {
   if (isMockMode)
     return mockVehicles.find((vehicle) => vehicle.id === id) ?? null
 
-  const { data, error } = await adminClient
+  const supabase = await readClient()
+  const { data, error } = await supabase
     .from('vehicles')
     .select(
       '*, category:categories(name), vehicle_images(storage_path, position)'

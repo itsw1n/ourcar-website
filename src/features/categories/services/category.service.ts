@@ -2,6 +2,7 @@ import { mockCategories, mockVehicles } from '@/features/vehicles/mockData'
 import type { VehicleCategory } from '@/features/vehicles/mockData'
 import { isMockMode } from '@/lib/dataSource'
 import { adminClient } from '@/lib/supabase/admin'
+import { readClient } from '@/lib/supabase/readClient'
 import { slugify } from '@/lib/utils'
 
 export type CategoryAdminView = VehicleCategory & {
@@ -18,7 +19,8 @@ function resolveSlug(input: CategoryInput): string {
 export async function listCategories(): Promise<VehicleCategory[]> {
   if (isMockMode) return mockCategories
 
-  const { data, error } = await adminClient
+  const supabase = await readClient()
+  const { data, error } = await supabase
     .from('categories')
     .select('id, name, slug')
     .order('name', { ascending: true })
