@@ -6,7 +6,12 @@ import sharp from 'sharp'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const publicDir = path.resolve(__dirname, '..', 'public')
 
-const TARGETS = ['mock-car-1.png', 'mock-car-2.png', 'mock-car-3.png']
+const TARGETS = [
+  'mock-car-1.png',
+  'mock-car-2.png',
+  'mock-car-3.png',
+  'mock-car-4.png',
+]
 const MAX_WIDTH = 1280
 const QUALITY = 82
 

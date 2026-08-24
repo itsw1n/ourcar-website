@@ -18,7 +18,7 @@ const supabase = createClient(url, key, {
 })
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'public')
-const assets = ['mock-car-1.png', 'mock-car-2.png', 'mock-car-3.png']
+const assets = ['mock-car-1.png', 'mock-car-2.png', 'mock-car-3.png', 'mock-car-4.png']
 
 for (const name of assets) {
   const buffer = readFileSync(join(root, name))
