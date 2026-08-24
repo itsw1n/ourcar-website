@@ -69,7 +69,9 @@ export function Select({
         )}
       >
         <SelectValue className="data-[placeholder]:text-muted-foreground">
-          {placeholder}
+          {({ isPlaceholder, selectedText }) =>
+            isPlaceholder ? placeholder : selectedText
+          }
         </SelectValue>
         <ChevronDown
           size={16}
