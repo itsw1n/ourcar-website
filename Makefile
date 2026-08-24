@@ -61,8 +61,10 @@ docker-dev-down:
 	docker compose down
 
 # Production: build + run with nginx (HTTP now, TLS-ready). Uses .env.prod.
+# --env-file .env.prod feeds both the build args (NEXT_PUBLIC_*) and the
+# runtime env (SUPABASE_SERVICE_ROLE_KEY) into the container.
 docker-prod:
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+	docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 
 docker-prod-down:
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml down
+	docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose.prod.yml down

@@ -17,5 +17,8 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - ./nginx/prod.tls.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./nginx/certs:/etc/nginx/certs:ro
+      # HTTP now; swap to ./nginx/prod.tls.conf + uncomment the certs volume
+      # (and provide nginx/certs/{fullchain,privkey}.pem) to enable TLS.
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./nginx/prod.tls.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./nginx/certs:/etc/nginx/certs:ro

@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 
 # ── Base: install dependencies ──────────────────────────────────────────────
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 WORKDIR /app
-ENV NODE_ENV=production
 RUN apk add --no-cache libc6-compat
 COPY package*.json ./
+# Install ALL deps (incl. dev) so the production build has tailwind/typescript.
 RUN npm ci
 
 # ── Builder: production standalone output ───────────────────────────────────
@@ -18,10 +18,15 @@ ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV NEXT_PUBLIC_DATA_SOURCE=$NEXT_PUBLIC_DATA_SOURCE
 COPY . .
+# Next.js inlines NEXT_PUBLIC_* from a .env file at build time (not from the
+# shell ENV), so materialize them here from the build args for the build step.
+RUN printf 'NEXT_PUBLIC_SUPABASE_URL=%s\nNEXT_PUBLIC_SUPABASE_ANON_KEY=%s\nNEXT_PUBLIC_DATA_SOURCE=%s\n' \
+  "$NEXT_PUBLIC_SUPABASE_URL" "$NEXT_PUBLIC_SUPABASE_ANON_KEY" "$NEXT_PUBLIC_DATA_SOURCE" > .env && \
+  echo "materialized .env for next build (url=$NEXT_PUBLIC_SUPABASE_URL)"
 RUN npm run build
 
 # ── Runner: minimal production image ────────────────────────────────────────
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 ENV NODE_ENV=production
 WORKDIR /app
 # `.next/standalone` bundles its own minimal node_modules; copy it + static/public.

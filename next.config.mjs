@@ -1,3 +1,8 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -9,6 +14,12 @@ const nextConfig = {
       { protocol: 'http', hostname: 'localhost' },
       { protocol: 'http', hostname: 'host.docker.internal' },
     ],
+  },
+  webpack: (config) => {
+    // Explicit '@' alias (mirrors tsconfig paths). Declared here so it resolves
+    // reliably across environments (notably the production Docker build).
+    config.resolve.alias['@'] = path.join(__dirname, 'src')
+    return config
   },
   experimental: {
     optimizePackageImports: ['react-aria-components', 'lucide-react'],
