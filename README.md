@@ -117,10 +117,20 @@ make docker-dev        # supabase start + app + nginx in Docker; open http://loc
 make docker-dev-down
 
 # Production
-cp .env.example .env.prod   # fill with HOSTED Supabase values
+cp .env.prod.example .env.prod   # fill with HOSTED Supabase values
 make docker-prod
 make docker-prod-down
 ```
+
+**Required runtime/env vars**
+- `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_DATA_SOURCE=supabase`
+  are inlined into the client bundle at **build** time (passed as build args).
+- `SUPABASE_SERVICE_ROLE_KEY` is read at **runtime** by the server for server-side data
+  access. It is server-only (never sent to the browser) and must be present in the
+  container environment (it lives in `.env.prod` / the dev `local-env.sh` export).
+  Without it, public pages fail with `supabaseKey is required`.
+- TLS: `docker-compose.prod.yml` serves HTTP by default; swap the nginx volume to
+  `nginx/prod.tls.conf` and mount `nginx/certs/` to enable TLS.
 
 ## Project Structure
 
