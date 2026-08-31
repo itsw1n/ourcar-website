@@ -9,12 +9,14 @@ import { QueryProvider } from '@/components/shared/QueryProvider'
 import { BrowseCars } from '@/features/vehicles/components/BrowseCars'
 import { VehicleGridSkeleton } from '@/features/vehicles/components/VehicleGrid'
 import { getVehicles } from '@/features/vehicles/queries/vehicles'
+import { listCategories } from '@/features/categories/services/category.service'
 
 // SSR per request — keeps the build hermetic (no DB needed at build time).
 export const dynamic = 'force-dynamic'
 
 export default async function CarsPage() {
   const initialData = await getVehicles()
+  const categories = await listCategories()
 
   return (
     <>
@@ -40,7 +42,10 @@ export default async function CarsPage() {
 
               <QueryProvider>
                 <Suspense fallback={<VehicleGridSkeleton count={6} />}>
-                  <BrowseCars initialData={initialData} />
+                  <BrowseCars
+                    initialData={initialData}
+                    categories={categories}
+                  />
                 </Suspense>
               </QueryProvider>
             </Container>

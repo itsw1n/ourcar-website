@@ -1,7 +1,7 @@
 import { mockCategories, mockVehicles } from '@/features/vehicles/mockData'
-import type { VehicleCategory } from '@/features/vehicles/mockData'
+import type { VehicleCategory } from '@/features/vehicles/types/category'
 import { isMockMode } from '@/lib/dataSource'
-import { adminClient } from '@/lib/supabase/admin'
+import { getAdminClient } from '@/lib/supabase/requireUser'
 import { readClient } from '@/lib/supabase/readClient'
 import { slugify } from '@/lib/utils'
 
@@ -40,7 +40,8 @@ export async function listCategoriesAdmin(): Promise<CategoryAdminView[]> {
     }))
   }
 
-  const { data, error } = await adminClient
+  const supabase = await getAdminClient()
+  const { data, error } = await supabase
     .from('categories')
     .select('id, name, slug, is_active, vehicles(count)')
     .order('name', { ascending: true })
@@ -69,7 +70,8 @@ export async function createCategory(
     return category
   }
 
-  const { data, error } = await adminClient
+  const supabase = await getAdminClient()
+  const { data, error } = await supabase
     .from('categories')
     .insert({ name: input.name, slug })
     .select('id, name, slug')
@@ -92,7 +94,8 @@ export async function updateCategory(
     return category
   }
 
-  const { data, error } = await adminClient
+  const supabase = await getAdminClient()
+  const { data, error } = await supabase
     .from('categories')
     .update({ name: input.name, slug })
     .eq('id', id)
@@ -123,7 +126,8 @@ export async function deleteCategory(
     return { ok: true }
   }
 
-  const { count } = await adminClient
+  const supabase = await getAdminClient()
+  const { count } = await supabase
     .from('vehicles')
     .select('id', { count: 'exact', head: true })
     .eq('category_id', id)
@@ -136,7 +140,7 @@ export async function deleteCategory(
     }
   }
 
-  const { error } = await adminClient.from('categories').delete().eq('id', id)
+  const { error } = await supabase.from('categories').delete().eq('id', id)
   if (error) throw new Error(error.message)
   return { ok: true }
 }

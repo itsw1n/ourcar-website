@@ -3,10 +3,12 @@ import { SectionHeading } from '@/components/shared/SectionHeading'
 import { Reveal } from '@/components/shared/Reveal'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
-import { cn } from '@/lib/utils'
-import { mockTestimonials } from '@/features/testimonials/mockData'
+import { listTestimonials } from '@/features/testimonials/services/testimonial.service'
 
-export function Testimonials() {
+export async function Testimonials() {
+  const items = await listTestimonials()
+  if (items.length === 0) return null
+
   return (
     <Section data-ui="testimonials-section" className="py-20">
       <Reveal>
@@ -14,7 +16,7 @@ export function Testimonials() {
           <SectionHeading eyebrow="Testimonials" title="What our clients say" />
 
           <div className="grid gap-5 md:grid-cols-3">
-            {mockTestimonials.map((item) => (
+            {items.map((item) => (
               <article
                 key={item.id}
                 data-ui="testimonial-card"
@@ -36,14 +38,7 @@ export function Testimonials() {
                 <p className="leading-7 text-muted-foreground">
                   &ldquo;{item.quote}&rdquo;
                 </p>
-                <div className="mt-6 text-sm font-bold">
-                  {item.displayName}
-                  {item.isMock ? (
-                    <span className="ml-2 text-xs font-normal uppercase tracking-wider text-muted-foreground">
-                      Mock
-                    </span>
-                  ) : null}
-                </div>
+                <div className="mt-6 text-sm font-bold">{item.displayName}</div>
               </article>
             ))}
           </div>

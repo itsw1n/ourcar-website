@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { useQueryStates, parseAsString, parseAsStringEnum } from 'nuqs'
 import { useVehicles } from '@/features/vehicles/hooks/useVehicles'
 import type { VehicleStatusFilter as StatusFilter } from '@/features/vehicles/types/vehicle'
-import { mockCategories } from '@/features/vehicles/mockData'
+import type { VehicleCategory } from '@/features/vehicles/types/category'
 import type { Vehicle } from '@/features/vehicles/types/vehicle'
 import { VehicleSearch } from './VehicleSearch'
 import { VehicleStatusFilter } from './VehicleStatusFilter'
@@ -13,7 +13,13 @@ import { VehicleResultCount } from './VehicleResultCount'
 import { VehicleEmptyState } from './VehicleEmptyState'
 import { VehicleGrid, VehicleGridSkeleton } from './VehicleGrid'
 
-export function BrowseCars({ initialData }: { initialData?: Vehicle[] }) {
+export function BrowseCars({
+  initialData,
+  categories,
+}: {
+  initialData?: Vehicle[]
+  categories: VehicleCategory[]
+}) {
   const [{ search, status, category }] = useQueryStates(
     {
       search: parseAsString,
@@ -40,7 +46,7 @@ export function BrowseCars({ initialData }: { initialData?: Vehicle[] }) {
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <VehicleStatusFilter />
-          <VehicleCategoryFilter categories={mockCategories} />
+          <VehicleCategoryFilter categories={categories} />
         </div>
       </div>
 

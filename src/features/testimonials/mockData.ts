@@ -1,11 +1,4 @@
-export type Testimonial = {
-  id: string
-  displayName: string
-  quote: string
-  rating: number
-  isMock: boolean
-  isVisible: boolean
-}
+import type { Testimonial } from './types/testimonial'
 
 export const mockTestimonials: Testimonial[] = [
   {
