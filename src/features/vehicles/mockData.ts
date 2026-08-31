@@ -1,10 +1,5 @@
 import type { Vehicle } from './types/vehicle'
-
-export type VehicleCategory = {
-  id: string
-  name: string
-  slug: string
-}
+import type { VehicleCategory } from './types/category'
 
 export const mockCategories: VehicleCategory[] = [
   { id: 'mini-van', name: 'Mini Van', slug: 'mini-van' },

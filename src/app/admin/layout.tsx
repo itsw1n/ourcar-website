@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 import { isSupabaseMode } from '@/lib/dataSource'
+import { requireAdmin } from '@/lib/supabase/requireUser'
 import { QueryProvider } from '@/components/shared/QueryProvider'
 import { AdminShell } from '@/features/admin/components/AdminShell'
 import { AdminConfigNotice } from '@/features/admin/components/AdminConfigNotice'
@@ -14,12 +13,7 @@ export default async function AdminLayout({
     return <AdminConfigNotice />
   }
 
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) redirect('/login?redirect=/admin')
+  await requireAdmin('/admin')
 
   return (
     <QueryProvider>

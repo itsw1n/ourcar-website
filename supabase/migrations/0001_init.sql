@@ -97,8 +97,15 @@ security definer
 set search_path = public
 as $$
 begin
+  -- Only the owner's Google account becomes an admin; everyone else gets a
+  -- non-privileged role so they cannot reach admin functionality (RLS also
+  -- enforces this). Extend/change the allowlist as needed.
   insert into public.profiles (id, full_name, role)
-  values (new.id, new.raw_user_meta_data ->> 'full_name', 'admin')
+  values (
+    new.id,
+    new.raw_user_meta_data ->> 'full_name',
+    case when new.email = 'erwincurato@gmail.com' then 'admin' else 'customer' end
+  )
   on conflict (id) do nothing;
   return new;
 end;

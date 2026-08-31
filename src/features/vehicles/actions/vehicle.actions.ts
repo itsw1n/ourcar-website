@@ -1,16 +1,15 @@
 'use server'
 
 import { requireUser } from '@/lib/supabase/requireUser'
+import { listVehicles, getVehicle } from '../services/vehicle.service'
 import {
-  listVehicles,
-  getVehicle,
   createVehicle,
   updateVehicle,
   deleteVehicle,
   setVehicleStatus,
   uploadVehicleImage,
   deleteVehicleImage,
-} from '../services/vehicle.service'
+} from '../services/vehicle.admin.service'
 import type { VehicleInput, Vehicle, VehicleStatus } from '../types/vehicle'
 
 export type ActionResult<T> =
